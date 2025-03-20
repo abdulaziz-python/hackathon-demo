@@ -14,6 +14,7 @@ import TeamManagement from "./pages/TeamManagement";
 import JudgeDashboard from "./pages/JudgeDashboard";
 import Leaderboard from "./pages/Leaderboard";
 import UserCabinet from "./pages/UserCabinet";
+import AdminPanel from "./pages/AdminPanel";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => {
               <Route path="/judge" element={<JudgeDashboard />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
               <Route path="/cabinet" element={<UserCabinet />} />
+              <Route path="/admin" element={<AdminPanel />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
