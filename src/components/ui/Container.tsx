@@ -15,10 +15,10 @@ const Container: React.FC<ContainerProps> = ({
   withoutPadding = false 
 }) => {
   return (
-    <div className="flex flex-col min-h-screen bg-background/50 backdrop-filter">
+    <div className="flex flex-col min-h-screen bg-background">
       <Navbar />
-      <main className={`flex-1 w-full ${!withoutPadding ? 'pt-28 pb-20' : ''}`}>
-        <div className={`container mx-auto px-4 md:px-6 ${className}`}>
+      <main className={`flex-1 w-full ${!withoutPadding ? 'pt-24 pb-16' : ''}`}>
+        <div className={`mx-auto ${className}`}>
           {children}
         </div>
       </main>
