@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Trophy, Medal, Search, Filter, ArrowUp, ArrowDown, Star, Users, Calendar, ChevronsUpDown, Crown, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -809,4 +810,15 @@ const Leaderboard = () => {
                 </div>
                 <div>
                   <span className="block text-muted-foreground">Rank</span>
-                  <span className="font-
+                  <span className="font-medium">{item.rank}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Container>
+  );
+};
+
+export default Leaderboard;
