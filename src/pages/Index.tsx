@@ -1,7 +1,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Filter, Search, Calendar, MapPin, Trophy } from "lucide-react";
+import { ArrowRight, Filter, Search, Calendar, MapPin, Trophy, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Container from "@/components/ui/Container";
