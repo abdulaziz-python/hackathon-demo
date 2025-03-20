@@ -86,7 +86,7 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-medium tracking-tight;
+    @apply font-display font-medium tracking-tight;
   }
   
   h1 {
@@ -109,6 +109,22 @@
   
   .card-glass {
     @apply bg-card/80 backdrop-blur-sm border border-border shadow-sm transition-all duration-200 hover:shadow-md;
+  }
+  
+  .premium-card {
+    @apply relative bg-card backdrop-blur-sm border border-white/10 dark:border-white/5 shadow-premium transition-all duration-500 hover:shadow-premium-hover overflow-hidden;
+  }
+  
+  .premium-card::before {
+    @apply content-[''] absolute -inset-0.5 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-[inherit] opacity-0 transition-opacity duration-500 -z-10;
+  }
+  
+  .premium-card:hover::before {
+    @apply opacity-100;
+  }
+  
+  .premium-card-content {
+    @apply relative z-10;
   }
   
   .tag {

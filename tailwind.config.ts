@@ -25,6 +25,7 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))"
@@ -66,6 +67,7 @@ export default {
       },
       fontFamily: {
         sans: ["Inter", "SF Pro Display", "system-ui", "sans-serif"],
+        display: ["Space Grotesk", "Inter", "SF Pro Display", "system-ui", "sans-serif"],
       },
       boxShadow: {
         'glass': '0 4px 30px rgba(0, 0, 0, 0.1)',
@@ -73,6 +75,9 @@ export default {
         'elevation': '0 8px 30px rgba(0, 0, 0, 0.12)',
         'glow': '0 0 15px rgba(var(--primary-rgb)/0.5)',
         'inner-glow': 'inset 0 0 20px rgba(var(--primary-rgb)/0.3)',
+        'premium': '0 10px 50px -12px rgba(0, 0, 0, 0.25)',
+        'premium-hover': '0 20px 80px -12px rgba(var(--primary-rgb)/0.25)',
+        'float': '0 20px 80px -20px rgba(0, 0, 0, 0.1)',
       },
       keyframes: {
         "accordion-down": {

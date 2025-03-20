@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { 
   User, Settings, Trophy, Bookmark, Calendar, Clock, 
-  Bell, Activity, Plus, Users, Zap, FileCode, Award
+  Bell, Activity, Plus, Users, Zap, FileCode, Award,
+  Lightning, Star, Sparkles, BarChart4, LayoutDashboard
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Container from "@/components/ui/Container";
@@ -99,7 +100,7 @@ const UserCabinet = () => {
     <Container>
       <div className="mb-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">{t("cabinet.title")}</h1>
+          <h1 className="text-3xl font-bold gradient-text">{t("cabinet.title")}</h1>
           <div className="flex space-x-2">
             <Button 
               variant={language === "en" ? "default" : "outline"} 
@@ -128,10 +129,15 @@ const UserCabinet = () => {
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
           {/* Overview Card */}
-          <div className="bg-gradient-to-br from-primary/10 via-primary/5 to-transparent backdrop-blur-sm rounded-xl overflow-hidden border border-border animate-fade-in">
-            <div className="p-6">
-              <div className="flex items-center">
-                <div className="w-20 h-20 rounded-full border-4 border-background overflow-hidden">
+          <div className="premium-card rounded-2xl overflow-hidden">
+            <div className="relative h-32">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/40 to-primary/10"></div>
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1614850715649-1d0106293bd1?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay"></div>
+            </div>
+            
+            <div className="p-6 md:p-8 -mt-16 relative z-10">
+              <div className="flex flex-col md:flex-row md:items-end">
+                <div className="w-24 h-24 rounded-xl border-4 border-card overflow-hidden shadow-lg">
                   <img
                     src={userDashboardData.user.avatar}
                     alt={userDashboardData.user.name}
@@ -139,45 +145,50 @@ const UserCabinet = () => {
                   />
                 </div>
                 
-                <div className="ml-5">
-                  <h2 className="text-2xl font-bold">{userDashboardData.user.name}</h2>
-                  <p className="text-muted-foreground">{userDashboardData.user.username}</p>
+                <div className="mt-4 md:mt-0 md:ml-5 flex-1">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div>
+                      <h2 className="text-2xl font-bold">{userDashboardData.user.name}</h2>
+                      <p className="text-muted-foreground">{userDashboardData.user.username}</p>
+                    </div>
+                    
+                    <div className="mt-3 md:mt-0">
+                      <Link to="/dashboard">
+                        <Button variant="outline" size="sm" className="rounded-full">
+                          <Settings className="h-4 w-4 mr-2" />
+                          {t("dashboard.editProfile")}
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                  
                   <div className="mt-1 flex items-center text-sm text-muted-foreground">
                     <Clock className="h-4 w-4 mr-1" />
                     <span>{userDashboardData.user.lastLogin}</span>
                   </div>
                 </div>
-                
-                <div className="ml-auto">
-                  <Link to="/dashboard">
-                    <Button variant="outline" size="sm" className="rounded-full">
-                      <Settings className="h-4 w-4 mr-2" />
-                      {t("dashboard.editProfile")}
-                    </Button>
-                  </Link>
-                </div>
               </div>
               
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-8">
-                <div className="bg-white/40 dark:bg-white/5 backdrop-blur-sm rounded-lg p-4 text-center">
+                <div className="premium-card rounded-xl p-4 text-center">
                   <Calendar className="h-6 w-6 text-primary mx-auto mb-2" />
                   <p className="text-lg font-bold">{userDashboardData.stats.hackathons}</p>
                   <p className="text-sm text-muted-foreground">{t("cabinet.stats.hackathons")}</p>
                 </div>
                 
-                <div className="bg-white/40 dark:bg-white/5 backdrop-blur-sm rounded-lg p-4 text-center">
+                <div className="premium-card rounded-xl p-4 text-center">
                   <Users className="h-6 w-6 text-primary mx-auto mb-2" />
                   <p className="text-lg font-bold">{userDashboardData.stats.teams}</p>
                   <p className="text-sm text-muted-foreground">{t("cabinet.stats.teams")}</p>
                 </div>
                 
-                <div className="bg-white/40 dark:bg-white/5 backdrop-blur-sm rounded-lg p-4 text-center">
+                <div className="premium-card rounded-xl p-4 text-center">
                   <FileCode className="h-6 w-6 text-primary mx-auto mb-2" />
                   <p className="text-lg font-bold">{userDashboardData.stats.projects}</p>
                   <p className="text-sm text-muted-foreground">{t("cabinet.stats.projects")}</p>
                 </div>
                 
-                <div className="bg-white/40 dark:bg-white/5 backdrop-blur-sm rounded-lg p-4 text-center">
+                <div className="premium-card rounded-xl p-4 text-center">
                   <Trophy className="h-6 w-6 text-primary mx-auto mb-2" />
                   <p className="text-lg font-bold">{userDashboardData.stats.achievements}</p>
                   <p className="text-sm text-muted-foreground">{t("cabinet.stats.achievements")}</p>
@@ -187,23 +198,26 @@ const UserCabinet = () => {
           </div>
           
           {/* Recent Activity */}
-          <div className="bg-card rounded-xl border border-border overflow-hidden">
-            <div className="p-6 border-b border-border">
-              <h3 className="text-xl font-medium">{t("cabinet.recent.title")}</h3>
+          <div className="premium-card rounded-2xl overflow-hidden">
+            <div className="p-6 border-b border-border/20">
+              <div className="flex items-center">
+                <Activity className="h-5 w-5 mr-2 text-primary" />
+                <h3 className="text-xl font-medium">{t("cabinet.recent.title")}</h3>
+              </div>
             </div>
             
             <div className="p-6">
               {userDashboardData.recentActivity.length > 0 ? (
                 <div className="space-y-4 relative">
-                  <div className="absolute left-[22px] top-1 bottom-1 w-px bg-border"></div>
+                  <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/20 via-primary/10 to-transparent"></div>
                   
                   {userDashboardData.recentActivity.map((activity) => (
                     <div key={activity.id} className="flex items-start">
-                      <div className="w-11 h-11 rounded-full bg-muted flex items-center justify-center z-10 mr-4">
+                      <div className="w-10 h-10 rounded-full premium-card flex items-center justify-center z-10 mr-4">
                         {getActivityIcon(activity.icon)}
                       </div>
                       
-                      <div className="flex-1 bg-muted/30 rounded-lg p-3">
+                      <div className="flex-1 premium-card rounded-2xl p-4">
                         <h4 className="font-medium">{activity.title}</h4>
                         <p className="text-sm text-muted-foreground">{activity.time}</p>
                       </div>
@@ -222,57 +236,170 @@ const UserCabinet = () => {
           {/* Quick Actions */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Link to="/team">
-              <div className="group bg-card hover:bg-primary/5 border border-border rounded-xl p-6 text-center transition-colors">
-                <div className="w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 mx-auto mb-4 flex items-center justify-center transition-colors">
-                  <Users className="h-6 w-6 text-primary" />
+              <div className="premium-card group h-full rounded-2xl p-6 text-center transition-all">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 mx-auto mb-4 flex items-center justify-center transition-colors relative">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+                  <Users className="h-7 w-7 text-primary relative z-10" />
                 </div>
-                <h3 className="font-medium mb-1">{t("cabinet.actions.createTeam")}</h3>
+                <h3 className="font-medium mb-1 group-hover:text-primary transition-colors">{t("cabinet.actions.createTeam")}</h3>
                 <p className="text-sm text-muted-foreground">Create or manage your teams</p>
               </div>
             </Link>
             
             <Link to="/">
-              <div className="group bg-card hover:bg-primary/5 border border-border rounded-xl p-6 text-center transition-colors">
-                <div className="w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 mx-auto mb-4 flex items-center justify-center transition-colors">
-                  <Zap className="h-6 w-6 text-primary" />
+              <div className="premium-card group h-full rounded-2xl p-6 text-center transition-all">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 mx-auto mb-4 flex items-center justify-center transition-colors relative">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+                  <Lightning className="h-7 w-7 text-primary relative z-10" />
                 </div>
-                <h3 className="font-medium mb-1">{t("cabinet.actions.joinHackathon")}</h3>
+                <h3 className="font-medium mb-1 group-hover:text-primary transition-colors">{t("cabinet.actions.joinHackathon")}</h3>
                 <p className="text-sm text-muted-foreground">Find and join upcoming hackathons</p>
               </div>
             </Link>
             
             <Link to="/dashboard">
-              <div className="group bg-card hover:bg-primary/5 border border-border rounded-xl p-6 text-center transition-colors">
-                <div className="w-12 h-12 rounded-full bg-primary/10 group-hover:bg-primary/20 mx-auto mb-4 flex items-center justify-center transition-colors">
-                  <FileCode className="h-6 w-6 text-primary" />
+              <div className="premium-card group h-full rounded-2xl p-6 text-center transition-all">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/5 mx-auto mb-4 flex items-center justify-center transition-colors relative">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse"></div>
+                  <FileCode className="h-7 w-7 text-primary relative z-10" />
                 </div>
-                <h3 className="font-medium mb-1">{t("cabinet.actions.viewProjects")}</h3>
+                <h3 className="font-medium mb-1 group-hover:text-primary transition-colors">{t("cabinet.actions.viewProjects")}</h3>
                 <p className="text-sm text-muted-foreground">View or update your projects</p>
               </div>
             </Link>
+          </div>
+          
+          {/* Analytics & Progress */}
+          <div className="premium-card rounded-2xl overflow-hidden">
+            <div className="p-6 border-b border-border/20">
+              <div className="flex items-center">
+                <BarChart4 className="h-5 w-5 mr-2 text-primary" />
+                <h3 className="text-xl font-medium">Your Progress</h3>
+              </div>
+            </div>
+            
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-medium text-sm text-muted-foreground mb-3">SKILL PROGRESS</h4>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm font-medium">Frontend Development</span>
+                        <span className="text-sm text-primary font-medium">75%</span>
+                      </div>
+                      <div className="h-2 bg-muted/30 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-primary to-primary/60 rounded-full" style={{width: '75%'}}></div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm font-medium">Backend Development</span>
+                        <span className="text-sm text-primary font-medium">60%</span>
+                      </div>
+                      <div className="h-2 bg-muted/30 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-primary to-primary/60 rounded-full" style={{width: '60%'}}></div>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm font-medium">UI/UX Design</span>
+                        <span className="text-sm text-primary font-medium">85%</span>
+                      </div>
+                      <div className="h-2 bg-muted/30 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-primary to-primary/60 rounded-full" style={{width: '85%'}}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-medium text-sm text-muted-foreground mb-3">HACKATHON PERFORMANCE</h4>
+                  <div className="bg-gradient-to-br from-background to-muted/10 rounded-xl p-4 border border-border/20">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-muted-foreground">Average Score</p>
+                        <div className="flex items-center">
+                          <Star className="h-5 w-5 text-amber-500 mr-1" />
+                          <span className="text-2xl font-bold">4.7</span>
+                          <span className="text-sm text-muted-foreground ml-1">/ 5.0</span>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <p className="text-sm text-muted-foreground">Global Rank</p>
+                        <div className="flex items-center">
+                          <Trophy className="h-5 w-5 text-primary mr-1" />
+                          <span className="text-2xl font-bold">#12</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         
         {/* Sidebar */}
         <div className="lg:col-span-1 space-y-6">
+          {/* User Quick Links */}
+          <div className="premium-card rounded-2xl overflow-hidden">
+            <div className="p-6 border-b border-border/20">
+              <div className="flex items-center">
+                <LayoutDashboard className="h-5 w-5 mr-2 text-primary" />
+                <h3 className="text-xl font-medium">Quick Access</h3>
+              </div>
+            </div>
+            
+            <div className="p-3">
+              <div className="grid grid-cols-2 gap-2">
+                <Link to="/dashboard" className="premium-card rounded-xl p-3 text-center hover:bg-muted/5 transition-colors">
+                  <User className="h-6 w-6 text-primary mx-auto mb-1" />
+                  <span className="text-sm">Profile</span>
+                </Link>
+                
+                <Link to="/team" className="premium-card rounded-xl p-3 text-center hover:bg-muted/5 transition-colors">
+                  <Users className="h-6 w-6 text-primary mx-auto mb-1" />
+                  <span className="text-sm">Teams</span>
+                </Link>
+                
+                <Link to="/" className="premium-card rounded-xl p-3 text-center hover:bg-muted/5 transition-colors">
+                  <Calendar className="h-6 w-6 text-primary mx-auto mb-1" />
+                  <span className="text-sm">Events</span>
+                </Link>
+                
+                <Link to="/leaderboard" className="premium-card rounded-xl p-3 text-center hover:bg-muted/5 transition-colors">
+                  <Trophy className="h-6 w-6 text-primary mx-auto mb-1" />
+                  <span className="text-sm">Ranks</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+          
           {/* Upcoming Events */}
-          <div className="bg-card rounded-xl border border-border overflow-hidden">
-            <div className="p-6 border-b border-border">
-              <h3 className="text-xl font-medium">{t("cabinet.upcoming.title")}</h3>
+          <div className="premium-card rounded-2xl overflow-hidden">
+            <div className="p-6 border-b border-border/20">
+              <div className="flex items-center">
+                <Calendar className="h-5 w-5 mr-2 text-primary" />
+                <h3 className="text-xl font-medium">{t("cabinet.upcoming.title")}</h3>
+              </div>
             </div>
             
             <div className="p-6">
               {userDashboardData.upcomingEvents.length > 0 ? (
                 <div className="space-y-4">
                   {userDashboardData.upcomingEvents.map((event) => (
-                    <div key={event.id} className="bg-muted/30 rounded-lg p-4">
+                    <div key={event.id} className="premium-card rounded-xl p-4 group hover:border-primary/30 transition-all">
                       <div className="flex justify-between items-start">
                         <div>
-                          <h4 className="font-medium">{event.title}</h4>
-                          <p className="text-xs text-muted-foreground">{event.type}</p>
+                          <h4 className="font-medium group-hover:text-primary transition-colors">{event.title}</h4>
+                          <p className="text-xs bg-muted/30 rounded-full px-2 py-0.5 inline-block mt-1">{event.type}</p>
                           <p className="text-sm mt-1">{event.date}</p>
                         </div>
-                        <div className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
+                        <div className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full font-medium">
                           {event.timeLeft}
                         </div>
                       </div>
@@ -289,18 +416,21 @@ const UserCabinet = () => {
           </div>
           
           {/* Saved Hackathons */}
-          <div className="bg-card rounded-xl border border-border overflow-hidden">
-            <div className="p-6 border-b border-border">
-              <h3 className="text-xl font-medium">Saved Hackathons</h3>
+          <div className="premium-card rounded-2xl overflow-hidden">
+            <div className="p-6 border-b border-border/20">
+              <div className="flex items-center">
+                <Bookmark className="h-5 w-5 mr-2 text-primary" />
+                <h3 className="text-xl font-medium">Saved Hackathons</h3>
+              </div>
             </div>
             
             <div className="p-6">
               {userDashboardData.savedHackathons.length > 0 ? (
                 <div className="space-y-3">
                   {userDashboardData.savedHackathons.map((hackathon) => (
-                    <div key={hackathon.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                    <div key={hackathon.id} className="premium-card rounded-xl flex items-center justify-between p-3 group hover:border-primary/30 transition-all">
                       <div>
-                        <h4 className="font-medium text-sm">{hackathon.title}</h4>
+                        <h4 className="font-medium text-sm group-hover:text-primary transition-colors">{hackathon.title}</h4>
                         <p className="text-xs text-muted-foreground">{hackathon.date}</p>
                       </div>
                       <Bookmark className="h-4 w-4 text-primary" />
@@ -317,35 +447,44 @@ const UserCabinet = () => {
           </div>
           
           {/* Achievements */}
-          <div className="bg-card rounded-xl border border-border overflow-hidden">
-            <div className="p-6 border-b border-border">
-              <h3 className="text-xl font-medium">Recent Achievements</h3>
+          <div className="premium-card rounded-2xl overflow-hidden">
+            <div className="p-6 border-b border-border/20">
+              <div className="flex items-center">
+                <Award className="h-5 w-5 mr-2 text-primary" />
+                <h3 className="text-xl font-medium">Recent Achievements</h3>
+              </div>
             </div>
             
             <div className="p-6">
               <div className="space-y-4">
-                <div className="flex items-center p-3 bg-gradient-to-r from-amber-100/50 to-amber-50/30 dark:from-amber-900/20 dark:to-amber-800/10 rounded-lg border border-amber-200/30 dark:border-amber-700/30">
-                  <div className="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center mr-4">
-                    <Trophy className="h-6 w-6 text-amber-600 dark:text-amber-400" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium">2nd Place Winner</h4>
-                    <p className="text-sm text-muted-foreground">IoT Solutions Hackathon</p>
+                <div className="premium-card rounded-xl overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-amber-300/5 opacity-30 transition-opacity duration-500 group-hover:opacity-50"></div>
+                  <div className="flex items-center p-4 relative z-10">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400/20 to-amber-500/10 flex items-center justify-center mr-4 shadow-inner">
+                      <Trophy className="h-6 w-6 text-amber-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium">2nd Place Winner</h4>
+                      <p className="text-sm text-muted-foreground">IoT Solutions Hackathon</p>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="flex items-center p-3 bg-gradient-to-r from-blue-100/50 to-blue-50/30 dark:from-blue-900/20 dark:to-blue-800/10 rounded-lg border border-blue-200/30 dark:border-blue-700/30">
-                  <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mr-4">
-                    <Award className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium">Team Player</h4>
-                    <p className="text-sm text-muted-foreground">Joined 3 different teams</p>
+                <div className="premium-card rounded-xl overflow-hidden group">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-blue-300/5 opacity-30 transition-opacity duration-500 group-hover:opacity-50"></div>
+                  <div className="flex items-center p-4 relative z-10">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400/20 to-blue-500/10 flex items-center justify-center mr-4 shadow-inner">
+                      <Sparkles className="h-6 w-6 text-blue-500" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium">Team Player</h4>
+                      <p className="text-sm text-muted-foreground">Joined 3 different teams</p>
+                    </div>
                   </div>
                 </div>
                 
                 <Link to="/dashboard">
-                  <Button variant="ghost" className="w-full mt-2">
+                  <Button variant="ghost" className="w-full mt-2 hover:bg-primary/5 hover:text-primary">
                     <Trophy className="h-4 w-4 mr-2" />
                     View All Achievements
                   </Button>
