@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
   Menu, X, Moon, Sun, LogIn, User, 
-  Menu as MenuIcon, Globe, ChevronsUpDown 
+  Globe, ChevronsUpDown 
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
@@ -13,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/components/ui/use-toast";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,8 +22,10 @@ const Navbar = () => {
     localStorage.getItem("theme") === "dark" ||
     (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches)
   );
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const location = useLocation();
   const { t, language, setLanguage } = useLanguage();
+  const { toast } = useToast();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   
@@ -35,6 +38,25 @@ const Navbar = () => {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
     }
+  };
+
+  const handleLogin = () => {
+    setIsLoggingIn(true);
+    
+    // Simulate login process
+    setTimeout(() => {
+      setIsLoggingIn(false);
+      
+      // Show success toast
+      toast({
+        title: "Logged in successfully",
+        description: "Welcome back to Hackathon.uz!",
+        variant: "default",
+      });
+      
+      // Redirect to dashboard or cabinet
+      window.location.href = "/cabinet";
+    }, 1500);
   };
 
   // Initialize dark mode
@@ -75,19 +97,21 @@ const Navbar = () => {
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/80 backdrop-blur-md shadow-sm" : "bg-transparent"
+        isScrolled 
+          ? "bg-background/70 backdrop-blur-xl shadow-sm border-b border-border/20" 
+          : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between h-16">
+      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between h-20">
         {/* Logo */}
         <Link 
           to="/" 
           className="flex items-center space-x-2 animate-fade-in"
         >
-          <div className="w-8 h-8 rounded-full bg-telegram flex items-center justify-center text-white font-bold">
+          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white font-bold transition-all duration-300 hover:shadow-glow">
             H
           </div>
-          <span className="font-semibold text-xl">{t("app.name")}</span>
+          <span className="font-display font-semibold text-xl">Hackathon.uz</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -97,9 +121,9 @@ const Navbar = () => {
               <li key={link.name} className={`animation-delay-${index * 200}`}>
                 <Link
                   to={link.path}
-                  className={`px-3 py-2 rounded-md text-sm transition-colors animate-fade-in ${
+                  className={`px-3 py-2 rounded-xl text-sm transition-all animate-fade-in ${
                     location.pathname === link.path
-                      ? "text-primary font-medium"
+                      ? "text-primary font-medium bg-primary/5"
                       : "text-foreground/80 hover:text-foreground hover:bg-accent"
                   }`}
                 >
@@ -114,13 +138,13 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-3 animate-fade-in">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="rounded-full">
+              <Button variant="ghost" size="sm" className="rounded-xl">
                 <Globe className="h-4 w-4 mr-2" />
                 {language === "en" ? "English" : "O'zbek"}
                 <ChevronsUpDown className="h-4 w-4 ml-1 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="rounded-xl">
               <DropdownMenuItem onClick={() => setLanguage("en")}>
                 <span className={language === "en" ? "font-medium" : ""}>English</span>
               </DropdownMenuItem>
@@ -134,22 +158,37 @@ const Navbar = () => {
             variant="ghost"
             size="icon"
             onClick={toggleDarkMode}
-            className="rounded-full"
+            className="rounded-xl"
             aria-label="Toggle dark mode"
           >
             {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
           
           <Link to="/cabinet">
-            <Button variant="outline" size="sm" className="rounded-full mr-2">
+            <Button variant="outline" size="sm" className="rounded-xl mr-2">
               <User className="h-4 w-4 mr-2" />
               {t("nav.cabinet")}
             </Button>
           </Link>
           
-          <Button variant="default" size="sm" className="rounded-full">
-            <LogIn className="h-4 w-4 mr-2" />
-            {t("nav.login")}
+          <Button 
+            variant="default" 
+            size="sm" 
+            className="rounded-xl"
+            onClick={handleLogin}
+            disabled={isLoggingIn}
+          >
+            {isLoggingIn ? (
+              <div className="flex items-center">
+                <div className="h-4 w-4 rounded-full border-2 border-t-transparent border-white animate-spin mr-2"></div>
+                {t("nav.loggingIn") || "Logging in..."}
+              </div>
+            ) : (
+              <>
+                <LogIn className="h-4 w-4 mr-2" />
+                {t("nav.login")}
+              </>
+            )}
           </Button>
         </div>
 
@@ -159,7 +198,7 @@ const Navbar = () => {
             variant="ghost"
             size="icon"
             onClick={toggleDarkMode}
-            className="rounded-full"
+            className="rounded-xl"
             aria-label="Toggle dark mode"
           >
             {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -169,7 +208,7 @@ const Navbar = () => {
             variant="ghost"
             size="icon"
             onClick={toggleMenu}
-            className="text-foreground"
+            className="text-foreground rounded-xl"
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -179,15 +218,15 @@ const Navbar = () => {
 
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
-        <div className="md:hidden glass animate-fade-in">
+        <div className="md:hidden backdrop-blur-xl bg-background/80 border-b border-border/20 animate-fade-in">
           <div className="px-4 py-3 space-y-2">
             {navLinks.map((link, index) => (
               <Link
                 key={link.name}
                 to={link.path}
-                className={`block px-3 py-2 rounded-md text-base transition-colors ${
+                className={`block px-3 py-2 rounded-xl text-base transition-colors ${
                   location.pathname === link.path
-                    ? "text-primary font-medium bg-accent/50"
+                    ? "text-primary font-medium bg-primary/5"
                     : "text-foreground hover:bg-accent"
                 }`}
                 style={{ animationDelay: `${index * 50}ms` }}
@@ -196,7 +235,7 @@ const Navbar = () => {
               </Link>
             ))}
             
-            <Link to="/cabinet" className="block px-3 py-2 rounded-md text-base transition-colors text-foreground hover:bg-accent">
+            <Link to="/cabinet" className="block px-3 py-2 rounded-xl text-base transition-colors text-foreground hover:bg-accent">
               {t("nav.cabinet")}
             </Link>
             
@@ -205,7 +244,7 @@ const Navbar = () => {
                 variant={language === "en" ? "default" : "outline"} 
                 size="sm" 
                 onClick={() => setLanguage("en")}
-                className="flex-1 mr-2 text-xs"
+                className="flex-1 mr-2 text-xs rounded-xl"
               >
                 English
               </Button>
@@ -213,15 +252,29 @@ const Navbar = () => {
                 variant={language === "uz" ? "default" : "outline"} 
                 size="sm" 
                 onClick={() => setLanguage("uz")}
-                className="flex-1 text-xs"
+                className="flex-1 text-xs rounded-xl"
               >
                 O'zbek
               </Button>
             </div>
             
-            <Button variant="default" className="w-full mt-3 rounded-full">
-              <LogIn className="h-4 w-4 mr-2" />
-              {t("nav.login")}
+            <Button 
+              variant="default" 
+              className="w-full mt-3 rounded-xl"
+              onClick={handleLogin}
+              disabled={isLoggingIn}
+            >
+              {isLoggingIn ? (
+                <div className="flex items-center justify-center">
+                  <div className="h-4 w-4 rounded-full border-2 border-t-transparent border-white animate-spin mr-2"></div>
+                  {t("nav.loggingIn") || "Logging in..."}
+                </div>
+              ) : (
+                <>
+                  <LogIn className="h-4 w-4 mr-2" />
+                  {t("nav.login")}
+                </>
+              )}
             </Button>
           </div>
         </div>
