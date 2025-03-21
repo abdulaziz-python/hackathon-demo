@@ -98,8 +98,8 @@ const UserManagement = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    role: "participant",
-    status: "active",
+    role: "participant" as "participant" | "judge" | "admin",
+    status: "active" as "active" | "inactive",
   });
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,7 +164,7 @@ const UserManagement = () => {
   const handleToggleStatus = (id: number) => {
     const updatedUsers = users.map((user) =>
       user.id === id
-        ? { ...user, status: user.status === "active" ? "inactive" : "active" }
+        ? { ...user, status: user.status === "active" ? "inactive" : "active" as "active" | "inactive" }
         : user
     );
     
@@ -203,8 +203,8 @@ const UserManagement = () => {
               ...user,
               name: formData.name,
               email: formData.email,
-              role: formData.role as "participant" | "judge" | "admin",
-              status: formData.status as "active" | "inactive",
+              role: formData.role,
+              status: formData.status,
             }
           : user
       );
@@ -231,8 +231,8 @@ const UserManagement = () => {
         id: Math.max(...users.map((user) => user.id)) + 1,
         name: formData.name,
         email: formData.email,
-        role: formData.role as "participant" | "judge" | "admin",
-        status: formData.status as "active" | "inactive",
+        role: formData.role,
+        status: formData.status,
         registeredDate: new Date().toISOString().split("T")[0],
         hackathons: 0,
       };

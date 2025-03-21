@@ -16,7 +16,14 @@ import Leaderboard from "./pages/Leaderboard";
 import UserCabinet from "./pages/UserCabinet";
 import AdminPanel from "./pages/AdminPanel";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => {
   // Add transition classes to the body when the page loads
@@ -29,6 +36,9 @@ const App = () => {
     } else {
       document.documentElement.classList.remove('dark')
     }
+    
+    // Add macOS design classes to body
+    document.body.classList.add("font-sans", "antialiased");
   }, []);
 
   return (

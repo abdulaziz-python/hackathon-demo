@@ -5,69 +5,56 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
-    
-    --primary-rgb: 0, 122, 255;
-    
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-
+    --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-
-    --primary: 210 100% 50%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 46%;
-
-    --accent: 210 40% 96%;
-    --accent-foreground: 222 47% 11%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 221 83% 53%;
-
-    --radius: 0.75rem;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 210 100% 52%; /* Blue update */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 10% 3.9%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 240 10% 3.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5% 90%;
+    --input: 240 5% 90%;
+    --ring: 210 100% 52%;
+    --radius: 0.5rem;
+    --success: 142 76% 45%;
+    --success-foreground: 0 0% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 240 10% 3.9%;
   }
 
   .dark {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
-    
-    --primary-rgb: 10, 132, 255;
-
-    --card: 222 47% 13%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222 47% 13%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 100% 52%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-
-    --accent: 217 33% 17%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 224 76% 48%;
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 210 100% 52%; /* Blue update */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 5% 15%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 210 100% 52%;
+    --success: 142 76% 45%;
+    --success-foreground: 0 0% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 240 10% 3.9%;
   }
 }
 
@@ -75,79 +62,79 @@
   * {
     @apply border-border;
   }
-  
-  html {
-    @apply scroll-smooth;
-  }
-  
   body {
-    @apply bg-background text-foreground antialiased;
-    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-medium tracking-tight;
-  }
-  
-  h1 {
-    @apply text-3xl sm:text-4xl md:text-5xl;
-  }
-  
-  h2 {
-    @apply text-2xl sm:text-3xl md:text-4xl;
-  }
-  
-  h3 {
-    @apply text-xl sm:text-2xl md:text-3xl;
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
-@layer utilities {
-  .glass {
-    @apply bg-white/70 dark:bg-card/50 backdrop-blur-md border border-white/20 dark:border-white/10;
-  }
-  
-  .macos-card {
-    @apply bg-card shadow-sm rounded-xl border border-border/50 hover:shadow-md transition-all duration-200;
-  }
-  
-  .macos-button {
-    @apply rounded-full bg-primary/10 text-primary px-4 py-1.5 text-sm font-medium hover:bg-primary/20 transition-colors;
-  }
-  
-  .premium-card {
-    @apply relative bg-card backdrop-blur-sm border border-white/10 dark:border-white/5 shadow-sm transition-all duration-300 hover:shadow-md overflow-hidden;
-  }
-  
-  .premium-card::before {
-    @apply content-[''] absolute -inset-0.5 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-[inherit] opacity-0 transition-opacity duration-300 -z-10;
-  }
-  
-  .premium-card:hover::before {
-    @apply opacity-100;
-  }
-  
-  .tag {
-    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground;
-  }
-  
-  .animation-delay-200 {
-    animation-delay: 200ms;
-  }
-  
-  .animation-delay-400 {
-    animation-delay: 400ms;
-  }
-  
-  .animation-delay-600 {
-    animation-delay: 600ms;
-  }
-  
-  .shimmer {
-    @apply bg-shimmer bg-[length:800px_100%] animate-shimmer;
-  }
-  
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent;
-  }
+/* MacOS Card Styling */
+.macos-card {
+  @apply bg-white dark:bg-card border border-border/30 backdrop-blur-sm dark:backdrop-blur-sm dark:border-white/5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 6px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dark .macos-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.macos-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 10px 20px rgba(0, 0, 0, 0.04);
+}
+
+.dark .macos-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* MacOS Button Styling */
+.macos-button {
+  @apply rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+}
+
+/* MacOS Input Styling */
+.macos-input {
+  @apply rounded-lg border border-input bg-background px-3 py-2 text-sm;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.macos-input:focus {
+  @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+}
+
+/* Admin panel styling */
+.admin-sidebar {
+  @apply fixed left-0 top-24 h-[calc(100vh-6rem)] w-64 bg-card/50 backdrop-blur-md border-r border-border/20 overflow-auto transition-all duration-300 ease-in-out z-10;
+}
+
+/* Hackathon card styling */
+.hackathon-card {
+  @apply macos-card rounded-xl overflow-hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+.glass-effect {
+  @apply bg-white/90 dark:bg-black/50 backdrop-blur-md border border-white/20 dark:border-white/10;
+}
+
+/* Better scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/30;
 }
