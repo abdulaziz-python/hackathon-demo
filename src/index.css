@@ -70,7 +70,7 @@
 
 /* MacOS Card Styling */
 .macos-card {
-  @apply bg-white dark:bg-card border border-border/30 backdrop-blur-sm dark:backdrop-blur-sm dark:border-white/5;
+  @apply bg-white dark:bg-card border border-border/30 backdrop-blur-sm dark:backdrop-blur-sm dark:border-white/5 rounded-xl;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 6px rgba(0, 0, 0, 0.03);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -121,6 +121,63 @@
   @apply bg-white/90 dark:bg-black/50 backdrop-blur-md border border-white/20 dark:border-white/10;
 }
 
+/* Animated gradient background for heroes */
+.gradient-animation {
+  background: linear-gradient(
+    -45deg,
+    rgba(59, 130, 246, 0.5), /* blue-500 */
+    rgba(16, 185, 129, 0.5), /* green-500 */
+    rgba(99, 102, 241, 0.5), /* indigo-500 */
+    rgba(79, 70, 229, 0.5) /* violet-600 */
+  );
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Button hover effect */
+.btn-hover-effect {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-hover-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: all 0.4s ease;
+}
+
+.btn-hover-effect:hover::before {
+  left: 100%;
+}
+
+/* Form input enhancements */
+.form-input-highlight:focus-within {
+  @apply ring-2 ring-primary/50 ring-offset-1 ring-offset-background;
+}
+
 /* Better scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -137,4 +194,46 @@
 
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-muted-foreground/30;
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animation-delay-100 { animation-delay: 100ms; }
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-500 { animation-delay: 500ms; }
+
+/* Telegram button styling */
+.telegram-button {
+  @apply bg-telegram hover:bg-telegram-dark text-white transition-colors rounded-lg;
+}
+
+/* Page transitions */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
 }

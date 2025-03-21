@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,8 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { Plus, Edit, Trash, Calendar, Search } from "lucide-react";
+import { Plus, Edit, Trash, Calendar, Search, ExternalLink } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Hackathon {
   id: number;
@@ -71,6 +71,7 @@ const sampleHackathons: Hackathon[] = [
 ];
 
 const HackathonManagement = () => {
+  const navigate = useNavigate();
   const [hackathons, setHackathons] = useState<Hackathon[]>(sampleHackathons);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingHackathon, setEditingHackathon] = useState<Hackathon | null>(null);
@@ -92,14 +93,7 @@ const HackathonManagement = () => {
   });
 
   const handleCreateHackathon = () => {
-    setFormData({
-      name: "",
-      description: "",
-      startDate: "",
-      endDate: "",
-      status: "draft",
-    });
-    setIsCreateDialogOpen(true);
+    navigate("/admin/add-hackathon");
   };
 
   const handleEditHackathon = (hackathon: Hackathon) => {
@@ -140,7 +134,6 @@ const HackathonManagement = () => {
 
   const handleSubmit = () => {
     if (editingHackathon) {
-      // Update existing hackathon
       setHackathons(
         hackathons.map((h) =>
           h.id === editingHackathon.id
@@ -154,7 +147,6 @@ const HackathonManagement = () => {
         variant: "default",
       });
     } else {
-      // Create new hackathon
       const newHackathon: Hackathon = {
         id: Math.max(...hackathons.map((h) => h.id)) + 1,
         name: formData.name,
@@ -175,7 +167,6 @@ const HackathonManagement = () => {
     setEditingHackathon(null);
   };
 
-  // Filter hackathons based on search query
   const filteredHackathons = hackathons.filter(
     (hackathon) =>
       hackathon.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -270,6 +261,15 @@ const HackathonManagement = () => {
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
+                        <Link to={`/hackathons/${hackathon.id}`}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8"
+                          >
+                            <ExternalLink className="h-4 w-4" />
+                          </Button>
+                        </Link>
                         <Button
                           variant="ghost"
                           size="icon"
@@ -292,7 +292,7 @@ const HackathonManagement = () => {
         <DialogContent className="sm:max-w-[525px]">
           <DialogHeader>
             <DialogTitle>
-              {editingHackathon ? "Edit Hackathon" : "Create New Hackathon"}
+              {editingHackathon ? "Edit Hackathon" : "Quick Edit Hackathon"}
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -363,7 +363,7 @@ const HackathonManagement = () => {
               Cancel
             </Button>
             <Button onClick={handleSubmit} className="rounded-lg">
-              {editingHackathon ? "Update" : "Create"}
+              {editingHackathon ? "Update" : "Save Changes"}
             </Button>
           </DialogFooter>
         </DialogContent>

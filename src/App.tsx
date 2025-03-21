@@ -16,12 +16,14 @@ import Leaderboard from "./pages/Leaderboard";
 import UserCabinet from "./pages/UserCabinet";
 import AdminPanel from "./pages/AdminPanel";
 import AuthPage from "./pages/AuthPage";
+import AddHackathonPage from "./pages/AddHackathonPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 1,
       refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes
     },
   },
 });
@@ -47,12 +49,12 @@ const App = () => {
       <LanguageProvider>
         <TooltipProvider>
           <Toaster />
-          <Sonner />
+          <Sonner position="top-right" closeButton />
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<AuthPage />} />
-              <Route path="/signup" element={<AuthPage />} />
+              <Route path="/signup" element={<AuthPage mode="signup" />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/hackathons/:id" element={<HackathonDetail />} />
               <Route path="/team" element={<TeamManagement />} />
@@ -60,6 +62,7 @@ const App = () => {
               <Route path="/leaderboard" element={<Leaderboard />} />
               <Route path="/cabinet" element={<UserCabinet />} />
               <Route path="/admin" element={<AdminPanel />} />
+              <Route path="/admin/add-hackathon" element={<AddHackathonPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

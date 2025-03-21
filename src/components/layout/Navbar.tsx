@@ -1,9 +1,10 @@
+
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
   Menu, X, Moon, Sun, LogIn, User, 
-  Globe, ChevronsUpDown, BrandTelegram
+  Globe, ChevronsUpDown, Send
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
@@ -45,6 +46,18 @@ const Navbar = () => {
 
   const handleLogin = () => {
     navigate("/login");
+  };
+  
+  // Add the missing handleAuthSuccess function
+  const handleAuthSuccess = (userData: any) => {
+    toast({
+      title: "Login Successful",
+      description: `Welcome, ${userData.first_name}!`,
+      variant: "default",
+    });
+    setIsAuthDialogOpen(false);
+    // Redirect to dashboard after successful login
+    navigate("/dashboard");
   };
 
   useEffect(() => {
