@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { BrandTelegram, ArrowRight, SendPlane, CheckCircle2 } from "lucide-react";
+import { BrandTelegram, ArrowRight, Send, CheckCircle2 } from "lucide-react";
 
 interface TelegramAuthProps {
   onSuccess?: () => void;
@@ -167,7 +167,7 @@ const TelegramAuth = ({ onSuccess }: TelegramAuthProps) => {
                   </div>
                 ) : (
                   <div className="flex items-center">
-                    Verify <SendPlane className="ml-2 h-4 w-4" />
+                    Verify <Send className="ml-2 h-4 w-4" />
                   </div>
                 )}
               </Button>
