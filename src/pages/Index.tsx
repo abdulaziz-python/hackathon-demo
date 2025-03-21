@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Search, CalendarDays, MapPin, Trophy, ChevronRight, Users, Clock, MousePointer, BrandTelegram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -62,6 +62,7 @@ const topTeams = [
 
 const Index = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
   
@@ -89,7 +90,7 @@ const Index = () => {
   const handleAuthSuccess = () => {
     setIsAuthDialogOpen(false);
     // Redirect to dashboard
-    window.location.href = "/dashboard";
+    navigate("/dashboard");
   };
 
   return (
@@ -124,14 +125,19 @@ const Index = () => {
             </motion.p>
             
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row justify-center gap-3">
-              <Button size="lg" className="rounded-lg" onClick={() => window.location.href = "/dashboard"}>
+              <Button size="lg" className="rounded-lg" onClick={() => navigate("/dashboard")}>
                 Browse Hackathons
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
               
-              <Button variant="outline" size="lg" className="rounded-lg" onClick={() => setIsAuthDialogOpen(true)}>
-                Sign in with Telegram
-                <BrandTelegram className="ml-2 h-5 w-5" />
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="rounded-lg" 
+                onClick={() => navigate("/signup")}
+              >
+                Sign up
+                <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </motion.div>
           </motion.div>
@@ -205,7 +211,7 @@ const Index = () => {
           </div>
           
           <div className="mt-8 text-center">
-            <Button variant="outline" className="rounded-lg" onClick={() => window.location.href = "/dashboard"}>
+            <Button variant="outline" className="rounded-lg" onClick={() => navigate("/dashboard")}>
               View All Hackathons
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -420,10 +426,26 @@ const Index = () => {
               Join our community of innovators and problem-solvers. Create your profile and start participating in hackathons today.
             </p>
             
-            <Button size="lg" className="rounded-lg" onClick={() => setIsAuthDialogOpen(true)}>
-              Sign up with Telegram
-              <BrandTelegram className="ml-2 h-5 w-5" />
-            </Button>
+            <div className="flex flex-col sm:flex-row justify-center gap-3">
+              <Button 
+                size="lg" 
+                className="rounded-lg" 
+                onClick={() => navigate("/signup")}
+              >
+                Create Account
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="rounded-lg"
+                onClick={() => setIsAuthDialogOpen(true)}
+              >
+                Sign up with Telegram
+                <BrandTelegram className="ml-2 h-5 w-5" />
+              </Button>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -432,7 +454,7 @@ const Index = () => {
       <Dialog open={isAuthDialogOpen} onOpenChange={setIsAuthDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Sign in with Telegram</DialogTitle>
+            <DialogTitle>Sign up with Telegram</DialogTitle>
           </DialogHeader>
           <TelegramAuth onSuccess={handleAuthSuccess} />
         </DialogContent>

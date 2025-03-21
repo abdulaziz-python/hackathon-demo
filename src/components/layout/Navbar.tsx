@@ -1,6 +1,5 @@
-
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
   Menu, X, Moon, Sun, LogIn, User, 
@@ -29,6 +28,7 @@ const Navbar = () => {
   const location = useLocation();
   const { t, language, setLanguage } = useLanguage();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   
@@ -44,26 +44,9 @@ const Navbar = () => {
   };
 
   const handleLogin = () => {
-    setIsAuthDialogOpen(true);
+    navigate("/login");
   };
 
-  const handleAuthSuccess = () => {
-    setIsAuthDialogOpen(false);
-    
-    // Show success toast
-    toast({
-      title: "Logged in successfully",
-      description: "Welcome back to Hackathon.uz!",
-      variant: "default",
-    });
-    
-    // Redirect to dashboard
-    setTimeout(() => {
-      window.location.href = "/dashboard";
-    }, 1000);
-  };
-
-  // Initialize dark mode
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
@@ -72,7 +55,6 @@ const Navbar = () => {
     }
   }, []);
 
-  // Add scroll listener
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -86,12 +68,10 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close menu on location change
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location]);
 
-  // Navigation links
   const navLinks = [
     { name: t("nav.home"), path: "/" },
     { name: t("nav.dashboard"), path: "/dashboard" },
@@ -107,7 +87,6 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-4 flex items-center justify-between h-16">
-        {/* Logo */}
         <Link 
           to="/" 
           className="flex items-center space-x-2 animate-fade-in"
@@ -118,7 +97,6 @@ const Navbar = () => {
           <span className="font-display font-medium text-base sm:text-lg">Hackathon.uz</span>
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-1">
           <ul className="flex">
             {navLinks.map((link, index) => (
@@ -138,7 +116,6 @@ const Navbar = () => {
           </ul>
         </nav>
 
-        {/* Desktop Right Menu */}
         <div className="hidden md:flex items-center space-x-2 animate-fade-in">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -181,12 +158,11 @@ const Navbar = () => {
             className="rounded-lg"
             onClick={handleLogin}
           >
-            <BrandTelegram className="h-4 w-4 mr-2" />
+            <LogIn className="h-4 w-4 mr-2" />
             {t("nav.login")}
           </Button>
         </div>
 
-        {/* Mobile Menu Toggle */}
         <div className="flex md:hidden items-center space-x-2">
           <Button
             variant="ghost"
@@ -210,7 +186,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
       {isMenuOpen && (
         <div className="md:hidden backdrop-blur-xl bg-background/80 border-b border-border/20 animate-fade-in">
           <div className="px-4 py-3 space-y-2">
@@ -257,14 +232,13 @@ const Navbar = () => {
               className="w-full mt-3 rounded-lg"
               onClick={handleLogin}
             >
-              <BrandTelegram className="h-4 w-4 mr-2" />
+              <LogIn className="h-4 w-4 mr-2" />
               {t("nav.login")}
             </Button>
           </div>
         </div>
       )}
 
-      {/* Auth Dialog */}
       <Dialog open={isAuthDialogOpen} onOpenChange={setIsAuthDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>

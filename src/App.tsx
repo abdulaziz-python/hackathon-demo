@@ -15,6 +15,7 @@ import JudgeDashboard from "./pages/JudgeDashboard";
 import Leaderboard from "./pages/Leaderboard";
 import UserCabinet from "./pages/UserCabinet";
 import AdminPanel from "./pages/AdminPanel";
+import AuthPage from "./pages/AuthPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -50,6 +51,8 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/login" element={<AuthPage />} />
+              <Route path="/signup" element={<AuthPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/hackathons/:id" element={<HackathonDetail />} />
               <Route path="/team" element={<TeamManagement />} />
