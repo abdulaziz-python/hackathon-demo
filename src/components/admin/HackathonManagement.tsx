@@ -9,7 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { Plus, Edit, Trash, Check, X, Calendar } from "lucide-react";
+import { Plus, Edit, Trash, Calendar, Search } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Hackathon {
   id: number;
@@ -74,8 +75,15 @@ const HackathonManagement = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingHackathon, setEditingHackathon] = useState<Hackathon | null>(null);
   const { toast } = useToast();
+  const [searchQuery, setSearchQuery] = useState("");
   
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    description: string;
+    startDate: string;
+    endDate: string;
+    status: "draft" | "active" | "completed" | "upcoming";
+  }>({
     name: "",
     description: "",
     startDate: "",
@@ -115,11 +123,18 @@ const HackathonManagement = () => {
     });
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+
+  const handleStatusChange = (value: "draft" | "active" | "completed" | "upcoming") => {
+    setFormData({
+      ...formData,
+      status: value,
     });
   };
 
@@ -146,7 +161,7 @@ const HackathonManagement = () => {
         description: formData.description,
         startDate: formData.startDate,
         endDate: formData.endDate,
-        status: formData.status as "draft" | "active" | "completed" | "upcoming",
+        status: formData.status,
         participants: 0,
       };
       setHackathons([...hackathons, newHackathon]);
@@ -160,82 +175,114 @@ const HackathonManagement = () => {
     setEditingHackathon(null);
   };
 
+  // Filter hackathons based on search query
+  const filteredHackathons = hackathons.filter(
+    (hackathon) =>
+      hackathon.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      hackathon.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="space-y-6"
+      className="space-y-6 max-w-7xl mx-auto"
     >
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Hackathon Management</h1>
-        <Button onClick={handleCreateHackathon}>
-          <Plus className="mr-2 h-4 w-4" /> Create Hackathon
-        </Button>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h1 className="text-2xl font-semibold">Hackathon Management</h1>
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="relative flex-1 sm:flex-none sm:w-64">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search hackathons..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 h-9 rounded-lg"
+            />
+          </div>
+          <Button onClick={handleCreateHackathon} size="sm" className="rounded-lg whitespace-nowrap">
+            <Plus className="mr-2 h-4 w-4" /> Create
+          </Button>
+        </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>All Hackathons</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <Card className="macos-card shadow-sm">
+        <CardContent className="p-0">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Dates</TableHead>
-                <TableHead>Participants</TableHead>
+                <TableHead className="hidden md:table-cell">Status</TableHead>
+                <TableHead className="hidden md:table-cell">Dates</TableHead>
+                <TableHead className="hidden md:table-cell">Participants</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {hackathons.map((hackathon) => (
-                <TableRow key={hackathon.id}>
-                  <TableCell className="font-medium">{hackathon.name}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center">
-                      <div
-                        className={`w-2 h-2 rounded-full mr-2 ${
-                          hackathon.status === "active"
-                            ? "bg-green-500"
-                            : hackathon.status === "upcoming"
-                            ? "bg-blue-500"
-                            : hackathon.status === "completed"
-                            ? "bg-gray-500"
-                            : "bg-orange-500"
-                        }`}
-                      />
-                      <span className="capitalize">{hackathon.status}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center">
-                      <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
-                      <span>{new Date(hackathon.startDate).toLocaleDateString()} - {new Date(hackathon.endDate).toLocaleDateString()}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>{hackathon.participants}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end space-x-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => handleEditHackathon(hackathon)}
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => handleDeleteHackathon(hackathon.id)}
-                      >
-                        <Trash className="h-4 w-4" />
-                      </Button>
-                    </div>
+              {filteredHackathons.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-10 text-muted-foreground">
+                    No hackathons found. Try a different search.
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                filteredHackathons.map((hackathon) => (
+                  <TableRow key={hackathon.id}>
+                    <TableCell className="font-medium">
+                      <div>
+                        {hackathon.name}
+                        <div className="text-xs text-muted-foreground md:hidden mt-1">
+                          <span className="capitalize">{hackathon.status}</span> • {hackathon.participants} participants
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      <div className="flex items-center">
+                        <div
+                          className={`w-2 h-2 rounded-full mr-2 ${
+                            hackathon.status === "active"
+                              ? "bg-green-500"
+                              : hackathon.status === "upcoming"
+                              ? "bg-blue-500"
+                              : hackathon.status === "completed"
+                              ? "bg-gray-400"
+                              : "bg-amber-500"
+                          }`}
+                        />
+                        <span className="capitalize">{hackathon.status}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      <div className="flex items-center text-sm whitespace-nowrap">
+                        <Calendar className="mr-2 h-3.5 w-3.5 text-muted-foreground" />
+                        <span>{new Date(hackathon.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - {new Date(hackathon.endDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">{hackathon.participants}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end space-x-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleEditHackathon(hackathon)}
+                          className="h-8 w-8"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleDeleteHackathon(hackathon.id)}
+                          className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                        >
+                          <Trash className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>
@@ -257,6 +304,7 @@ const HackathonManagement = () => {
                 value={formData.name}
                 onChange={handleInputChange}
                 placeholder="Enter hackathon name"
+                className="rounded-lg"
               />
             </div>
             <div className="grid gap-2">
@@ -268,6 +316,7 @@ const HackathonManagement = () => {
                 onChange={handleInputChange}
                 placeholder="Enter hackathon description"
                 rows={3}
+                className="rounded-lg"
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -279,6 +328,7 @@ const HackathonManagement = () => {
                   type="date"
                   value={formData.startDate}
                   onChange={handleInputChange}
+                  className="rounded-lg"
                 />
               </div>
               <div className="grid gap-2">
@@ -289,30 +339,30 @@ const HackathonManagement = () => {
                   type="date"
                   value={formData.endDate}
                   onChange={handleInputChange}
+                  className="rounded-lg"
                 />
               </div>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="status">Status</Label>
-              <select
-                id="status"
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <option value="draft">Draft</option>
-                <option value="upcoming">Upcoming</option>
-                <option value="active">Active</option>
-                <option value="completed">Completed</option>
-              </select>
+              <Select value={formData.status} onValueChange={handleStatusChange}>
+                <SelectTrigger id="status" className="rounded-lg">
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="upcoming">Upcoming</SelectItem>
+                  <SelectItem value="active">Active</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)} className="rounded-lg">
               Cancel
             </Button>
-            <Button onClick={handleSubmit}>
+            <Button onClick={handleSubmit} className="rounded-lg">
               {editingHackathon ? "Update" : "Create"}
             </Button>
           </DialogFooter>

@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
   Menu, X, Moon, Sun, LogIn, User, 
-  Globe, ChevronsUpDown 
+  Globe, ChevronsUpDown, BrandTelegram
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
@@ -13,7 +13,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import TelegramAuth from "@/components/TelegramAuth";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,6 +25,7 @@ const Navbar = () => {
     (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches)
   );
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
   const location = useLocation();
   const { t, language, setLanguage } = useLanguage();
   const { toast } = useToast();
@@ -41,22 +44,23 @@ const Navbar = () => {
   };
 
   const handleLogin = () => {
-    setIsLoggingIn(true);
+    setIsAuthDialogOpen(true);
+  };
+
+  const handleAuthSuccess = () => {
+    setIsAuthDialogOpen(false);
     
-    // Simulate login process
+    // Show success toast
+    toast({
+      title: "Logged in successfully",
+      description: "Welcome back to Hackathon.uz!",
+      variant: "default",
+    });
+    
+    // Redirect to dashboard
     setTimeout(() => {
-      setIsLoggingIn(false);
-      
-      // Show success toast
-      toast({
-        title: "Logged in successfully",
-        description: "Welcome back to Hackathon.uz!",
-        variant: "default",
-      });
-      
-      // Redirect to dashboard or cabinet
-      window.location.href = "/cabinet";
-    }, 1500);
+      window.location.href = "/dashboard";
+    }, 1000);
   };
 
   // Initialize dark mode
@@ -96,32 +100,32 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 w-full z-40 transition-all duration-300 ${
         isScrolled 
           ? "bg-background/70 backdrop-blur-xl shadow-sm border-b border-border/20" 
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 md:px-6 flex items-center justify-between h-20">
+      <div className="container mx-auto px-4 flex items-center justify-between h-16">
         {/* Logo */}
         <Link 
           to="/" 
           className="flex items-center space-x-2 animate-fade-in"
         >
-          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white font-bold transition-all duration-300 hover:shadow-glow">
+          <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold transition-all duration-300">
             H
           </div>
-          <span className="font-display font-semibold text-xl">Hackathon.uz</span>
+          <span className="font-display font-medium text-base sm:text-lg">Hackathon.uz</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-4">
-          <ul className="flex space-x-1">
+        <nav className="hidden md:flex items-center space-x-1">
+          <ul className="flex">
             {navLinks.map((link, index) => (
               <li key={link.name} className={`animation-delay-${index * 200}`}>
                 <Link
                   to={link.path}
-                  className={`px-3 py-2 rounded-xl text-sm transition-all animate-fade-in ${
+                  className={`px-3 py-2 rounded-lg text-sm transition-all animate-fade-in ${
                     location.pathname === link.path
                       ? "text-primary font-medium bg-primary/5"
                       : "text-foreground/80 hover:text-foreground hover:bg-accent"
@@ -135,16 +139,16 @@ const Navbar = () => {
         </nav>
 
         {/* Desktop Right Menu */}
-        <div className="hidden md:flex items-center space-x-3 animate-fade-in">
+        <div className="hidden md:flex items-center space-x-2 animate-fade-in">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="rounded-xl">
+              <Button variant="ghost" size="sm" className="rounded-lg">
                 <Globe className="h-4 w-4 mr-2" />
                 {language === "en" ? "English" : "O'zbek"}
                 <ChevronsUpDown className="h-4 w-4 ml-1 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="rounded-xl">
+            <DropdownMenuContent align="end" className="rounded-lg">
               <DropdownMenuItem onClick={() => setLanguage("en")}>
                 <span className={language === "en" ? "font-medium" : ""}>English</span>
               </DropdownMenuItem>
@@ -158,14 +162,14 @@ const Navbar = () => {
             variant="ghost"
             size="icon"
             onClick={toggleDarkMode}
-            className="rounded-xl"
+            className="rounded-lg"
             aria-label="Toggle dark mode"
           >
-            {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
           
           <Link to="/cabinet">
-            <Button variant="outline" size="sm" className="rounded-xl mr-2">
+            <Button variant="outline" size="sm" className="rounded-lg">
               <User className="h-4 w-4 mr-2" />
               {t("nav.cabinet")}
             </Button>
@@ -174,44 +178,34 @@ const Navbar = () => {
           <Button 
             variant="default" 
             size="sm" 
-            className="rounded-xl"
+            className="rounded-lg"
             onClick={handleLogin}
-            disabled={isLoggingIn}
           >
-            {isLoggingIn ? (
-              <div className="flex items-center">
-                <div className="h-4 w-4 rounded-full border-2 border-t-transparent border-white animate-spin mr-2"></div>
-                {t("nav.loggingIn") || "Logging in..."}
-              </div>
-            ) : (
-              <>
-                <LogIn className="h-4 w-4 mr-2" />
-                {t("nav.login")}
-              </>
-            )}
+            <BrandTelegram className="h-4 w-4 mr-2" />
+            {t("nav.login")}
           </Button>
         </div>
 
         {/* Mobile Menu Toggle */}
-        <div className="flex md:hidden items-center space-x-3">
+        <div className="flex md:hidden items-center space-x-2">
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleDarkMode}
-            className="rounded-xl"
+            className="rounded-lg"
             aria-label="Toggle dark mode"
           >
-            {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
           
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleMenu}
-            className="text-foreground rounded-xl"
+            className="text-foreground rounded-lg"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
         </div>
       </div>
@@ -224,7 +218,7 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`block px-3 py-2 rounded-xl text-base transition-colors ${
+                className={`block px-3 py-2 rounded-lg text-base transition-colors ${
                   location.pathname === link.path
                     ? "text-primary font-medium bg-primary/5"
                     : "text-foreground hover:bg-accent"
@@ -235,7 +229,7 @@ const Navbar = () => {
               </Link>
             ))}
             
-            <Link to="/cabinet" className="block px-3 py-2 rounded-xl text-base transition-colors text-foreground hover:bg-accent">
+            <Link to="/cabinet" className="block px-3 py-2 rounded-lg text-base transition-colors text-foreground hover:bg-accent">
               {t("nav.cabinet")}
             </Link>
             
@@ -244,7 +238,7 @@ const Navbar = () => {
                 variant={language === "en" ? "default" : "outline"} 
                 size="sm" 
                 onClick={() => setLanguage("en")}
-                className="flex-1 mr-2 text-xs rounded-xl"
+                className="flex-1 mr-2 text-xs rounded-lg"
               >
                 English
               </Button>
@@ -252,7 +246,7 @@ const Navbar = () => {
                 variant={language === "uz" ? "default" : "outline"} 
                 size="sm" 
                 onClick={() => setLanguage("uz")}
-                className="flex-1 text-xs rounded-xl"
+                className="flex-1 text-xs rounded-lg"
               >
                 O'zbek
               </Button>
@@ -260,25 +254,25 @@ const Navbar = () => {
             
             <Button 
               variant="default" 
-              className="w-full mt-3 rounded-xl"
+              className="w-full mt-3 rounded-lg"
               onClick={handleLogin}
-              disabled={isLoggingIn}
             >
-              {isLoggingIn ? (
-                <div className="flex items-center justify-center">
-                  <div className="h-4 w-4 rounded-full border-2 border-t-transparent border-white animate-spin mr-2"></div>
-                  {t("nav.loggingIn") || "Logging in..."}
-                </div>
-              ) : (
-                <>
-                  <LogIn className="h-4 w-4 mr-2" />
-                  {t("nav.login")}
-                </>
-              )}
+              <BrandTelegram className="h-4 w-4 mr-2" />
+              {t("nav.login")}
             </Button>
           </div>
         </div>
       )}
+
+      {/* Auth Dialog */}
+      <Dialog open={isAuthDialogOpen} onOpenChange={setIsAuthDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Sign in with Telegram</DialogTitle>
+          </DialogHeader>
+          <TelegramAuth onSuccess={handleAuthSuccess} />
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };

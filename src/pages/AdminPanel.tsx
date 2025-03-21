@@ -10,6 +10,7 @@ import HackathonManagement from "@/components/admin/HackathonManagement";
 import UserManagement from "@/components/admin/UserManagement";
 import SettingsPanel from "@/components/admin/SettingsPanel";
 import AdminNavigation from "@/components/admin/AdminNavigation";
+import AnalyticsPanel from "@/components/admin/AnalyticsPanel";
 import { motion } from "framer-motion";
 
 const AdminPanel = () => {
@@ -47,7 +48,7 @@ const AdminPanel = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Card className="mt-8 overflow-hidden border-none shadow-lg bg-gradient-to-br from-background to-muted/50">
+          <Card className="mt-24 overflow-hidden border-none shadow-md bg-card">
             <CardHeader className="pb-2">
               <CardTitle className="text-center">Admin Login</CardTitle>
             </CardHeader>
@@ -59,7 +60,7 @@ const AdminPanel = () => {
                     placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="rounded-md"
+                    className="rounded-lg h-11"
                   />
                 </div>
                 <div className="space-y-2">
@@ -68,10 +69,10 @@ const AdminPanel = () => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="rounded-md"
+                    className="rounded-lg h-11"
                   />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full rounded-lg h-10 mt-4">
                   Login
                 </Button>
                 <p className="text-xs text-center text-muted-foreground mt-2">
@@ -93,6 +94,8 @@ const AdminPanel = () => {
         return <HackathonManagement />;
       case "users":
         return <UserManagement />;
+      case "analytics":
+        return <AnalyticsPanel />;
       case "settings":
         return <SettingsPanel />;
       default:
@@ -101,22 +104,20 @@ const AdminPanel = () => {
   };
 
   return (
-    <Container withoutPadding className="admin-panel">
-      <div className="flex min-h-[calc(100vh-6rem)] relative pt-24">
-        <AdminNavigation currentTab={currentTab} setTab={setCurrentTab} />
-        
-        <motion.div
-          key={currentTab}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.3 }}
-          className="flex-grow pl-24 pr-6 pb-6 pt-2 overflow-auto"
-        >
-          {renderContent()}
-        </motion.div>
-      </div>
-    </Container>
+    <div className="min-h-screen bg-background">
+      <AdminNavigation currentTab={currentTab} setTab={setCurrentTab} />
+      
+      <motion.div
+        key={currentTab}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        transition={{ duration: 0.3 }}
+        className="pl-28 pt-6 pr-6 pb-6 overflow-auto min-h-screen"
+      >
+        {renderContent()}
+      </motion.div>
+    </div>
   );
 };
 

@@ -5,69 +5,69 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 224 71.4% 4.1%;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
     
-    --primary-rgb: 0, 136, 204;
+    --primary-rgb: 0, 122, 255;
     
     --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 200 100% 40%;
+    --primary: 210 100% 50%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 220 8.9% 46.1%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 46%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
 
     --radius: 0.75rem;
   }
 
   .dark {
-    --background: 225 7% 11%;
+    --background: 222 47% 11%;
     --foreground: 210 40% 98%;
     
-    --primary-rgb: 0, 136, 204;
+    --primary-rgb: 10, 132, 255;
 
-    --card: 224 7% 15%;
+    --card: 222 47% 13%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 224 7% 15%;
+    --popover: 222 47% 13%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 201 100% 40%;
+    --primary: 210 100% 52%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 226 6% 21%;
+    --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 226 6% 21%;
-    --muted-foreground: 225 4% 75%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 226 6% 25%;
+    --accent: 217 33% 17%;
     --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62% 30%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 226 6% 19%;
-    --input: 226 6% 19%;
-    --ring: 201 100% 45%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 224 76% 48%;
   }
 }
 
@@ -107,28 +107,28 @@
     @apply bg-white/70 dark:bg-card/50 backdrop-blur-md border border-white/20 dark:border-white/10;
   }
   
-  .card-glass {
-    @apply bg-card/80 backdrop-blur-sm border border-border shadow-sm transition-all duration-200 hover:shadow-md;
+  .macos-card {
+    @apply bg-card shadow-sm rounded-xl border border-border/50 hover:shadow-md transition-all duration-200;
+  }
+  
+  .macos-button {
+    @apply rounded-full bg-primary/10 text-primary px-4 py-1.5 text-sm font-medium hover:bg-primary/20 transition-colors;
   }
   
   .premium-card {
-    @apply relative bg-card backdrop-blur-sm border border-white/10 dark:border-white/5 shadow-premium transition-all duration-500 hover:shadow-premium-hover overflow-hidden;
+    @apply relative bg-card backdrop-blur-sm border border-white/10 dark:border-white/5 shadow-sm transition-all duration-300 hover:shadow-md overflow-hidden;
   }
   
   .premium-card::before {
-    @apply content-[''] absolute -inset-0.5 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-[inherit] opacity-0 transition-opacity duration-500 -z-10;
+    @apply content-[''] absolute -inset-0.5 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent rounded-[inherit] opacity-0 transition-opacity duration-300 -z-10;
   }
   
   .premium-card:hover::before {
     @apply opacity-100;
   }
   
-  .premium-card-content {
-    @apply relative z-10;
-  }
-  
   .tag {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground;
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground;
   }
   
   .animation-delay-200 {
@@ -149,9 +149,5 @@
   
   .gradient-text {
     @apply bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent;
-  }
-  
-  .gradient-border {
-    @apply relative before:absolute before:-inset-0.5 before:rounded-[inherit] before:bg-gradient-to-r before:from-primary/50 before:to-primary/20 before:-z-10 hover:before:animate-gradient dark:before:from-primary/30 dark:before:to-primary/10;
   }
 }
