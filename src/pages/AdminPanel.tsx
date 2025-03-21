@@ -1,6 +1,5 @@
 
 import React, { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Container from "@/components/ui/Container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -18,6 +17,7 @@ const AdminPanel = () => {
   const { toast } = useToast();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [currentTab, setCurrentTab] = useState("dashboard");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,8 +47,8 @@ const AdminPanel = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Card className="mt-8">
-            <CardHeader>
+          <Card className="mt-8 overflow-hidden border-none shadow-lg bg-gradient-to-br from-background to-muted/50">
+            <CardHeader className="pb-2">
               <CardTitle className="text-center">Admin Login</CardTitle>
             </CardHeader>
             <CardContent>
@@ -59,6 +59,7 @@ const AdminPanel = () => {
                     placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    className="rounded-md"
                   />
                 </div>
                 <div className="space-y-2">
@@ -67,6 +68,7 @@ const AdminPanel = () => {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    className="rounded-md"
                   />
                 </div>
                 <Button type="submit" className="w-full">
@@ -83,42 +85,36 @@ const AdminPanel = () => {
     );
   }
 
+  const renderContent = () => {
+    switch (currentTab) {
+      case "dashboard":
+        return <AdminDashboard />;
+      case "hackathons":
+        return <HackathonManagement />;
+      case "users":
+        return <UserManagement />;
+      case "settings":
+        return <SettingsPanel />;
+      default:
+        return <AdminDashboard />;
+    }
+  };
+
   return (
     <Container withoutPadding className="admin-panel">
-      <div className="flex h-screen">
-        <AdminNavigation />
-        <div className="flex-grow p-6 overflow-auto">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Tabs defaultValue="dashboard" className="w-full">
-              <TabsList className="mb-8 w-full max-w-md mx-auto grid grid-cols-4">
-                <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
-                <TabsTrigger value="hackathons">Hackathons</TabsTrigger>
-                <TabsTrigger value="users">Users</TabsTrigger>
-                <TabsTrigger value="settings">Settings</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="dashboard">
-                <AdminDashboard />
-              </TabsContent>
-              
-              <TabsContent value="hackathons">
-                <HackathonManagement />
-              </TabsContent>
-              
-              <TabsContent value="users">
-                <UserManagement />
-              </TabsContent>
-              
-              <TabsContent value="settings">
-                <SettingsPanel />
-              </TabsContent>
-            </Tabs>
-          </motion.div>
-        </div>
+      <div className="flex min-h-[calc(100vh-6rem)] relative pt-24">
+        <AdminNavigation currentTab={currentTab} setTab={setCurrentTab} />
+        
+        <motion.div
+          key={currentTab}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.3 }}
+          className="flex-grow pl-24 pr-6 pb-6 pt-2 overflow-auto"
+        >
+          {renderContent()}
+        </motion.div>
       </div>
     </Container>
   );
