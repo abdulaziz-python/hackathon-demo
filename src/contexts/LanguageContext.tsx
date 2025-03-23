@@ -7,6 +7,7 @@ type LanguageContextType = {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
+  isLoading: boolean;
 };
 
 const translations = {
@@ -100,13 +101,42 @@ const translations = {
     "hackathon.teamSize": "Team Size",
     "hackathon.register": "Register Now",
     "hackathon.timeline": "Timeline",
+    "hackathon.prizes": "Prizes",
+    "hackathon.organizers": "Organizers",
+    "hackathon.sponsors": "Sponsors",
+    "hackathon.about": "About This Hackathon",
+    "hackathon.dates": "Dates",
+    "hackathon.location": "Location",
+    "hackathon.registration": "Registration",
+    "hackathon.registrationProgress": "Registration Progress",
+    "hackathon.registeredTeams": "of teams registered",
+    "hackathon.share": "Share",
+    "hackathon.website": "Website",
     
-    // Footer
-    "footer.platform": "Platform",
-    "footer.resources": "Resources",
-    "footer.legal": "Legal",
-    "footer.rights": "All rights reserved.",
-    "footer.tagline": "Made with ❤️ in Uzbekistan"
+    // Team Management
+    "team.management": "Team Management",
+    "team.create": "Create Team",
+    "team.join": "Join Team",
+    "team.leave": "Leave Team",
+    "team.edit": "Edit Team",
+    "team.delete": "Delete Team",
+    "team.invite": "Invite Member",
+    "team.members": "Team Members",
+    "team.projects": "Team Projects",
+    "team.name": "Team Name",
+    "team.description": "Team Description",
+    "team.details": "Team Details",
+    "team.actions": "Actions",
+    "team.ban": "Ban Team",
+    "team.banReason": "Reason for banning",
+    "team.banConfirm": "Confirm Ban",
+    "team.message": "Message Team",
+    "team.messageTitle": "Send Message to Team",
+    "team.messageContent": "Message content",
+    "team.messageSend": "Send Message",
+    "team.messageAll": "Message All Teams",
+    "team.noTeams": "No teams found",
+    "team.searchTeams": "Search teams..."
   },
   uz: {
     // General
@@ -198,13 +228,42 @@ const translations = {
     "hackathon.teamSize": "Jamoa hajmi",
     "hackathon.register": "Ro'yxatdan o'tish",
     "hackathon.timeline": "Jadval",
+    "hackathon.prizes": "Sovrinlar",
+    "hackathon.organizers": "Tashkilotchilar",
+    "hackathon.sponsors": "Homiylar",
+    "hackathon.about": "Hakaton haqida",
+    "hackathon.dates": "Sanalar",
+    "hackathon.location": "Joylashuv",
+    "hackathon.registration": "Ro'yxatdan o'tish",
+    "hackathon.registrationProgress": "Ro'yxatdan o'tish jarayoni",
+    "hackathon.registeredTeams": "jamoalar ro'yxatdan o'tgan",
+    "hackathon.share": "Ulashish",
+    "hackathon.website": "Veb-sayt",
     
-    // Footer
-    "footer.platform": "Platforma",
-    "footer.resources": "Resurslar",
-    "footer.legal": "Huquqiy",
-    "footer.rights": "Barcha huquqlar himoyalangan.",
-    "footer.tagline": "O'zbekistonda ❤️ bilan yaratilgan"
+    // Team Management
+    "team.management": "Jamoa boshqaruvi",
+    "team.create": "Jamoa yaratish",
+    "team.join": "Jamoaga qo'shilish",
+    "team.leave": "Jamoadan chiqish",
+    "team.edit": "Jamoani tahrirlash",
+    "team.delete": "Jamoani o'chirish",
+    "team.invite": "A'zoni taklif qilish",
+    "team.members": "Jamoa a'zolari",
+    "team.projects": "Jamoa loyihalari",
+    "team.name": "Jamoa nomi",
+    "team.description": "Jamoa tavsifi",
+    "team.details": "Jamoa ma'lumotlari",
+    "team.actions": "Amallar",
+    "team.ban": "Jamoani bloklash",
+    "team.banReason": "Bloklash sababi",
+    "team.banConfirm": "Bloklashni tasdiqlash",
+    "team.message": "Jamoaga xabar yuborish",
+    "team.messageTitle": "Jamoaga xabar yuborish",
+    "team.messageContent": "Xabar mazmuni",
+    "team.messageSend": "Xabarni yuborish",
+    "team.messageAll": "Barcha jamoalarga xabar yuborish",
+    "team.noTeams": "Jamoalar topilmadi",
+    "team.searchTeams": "Jamoalarni qidirish..."
   }
 };
 
@@ -212,6 +271,7 @@ const LanguageContext = createContext<LanguageContextType>({
   language: "en",
   setLanguage: () => {},
   t: () => "",
+  isLoading: false
 });
 
 export const useLanguage = () => useContext(LanguageContext);
@@ -221,9 +281,22 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const savedLang = localStorage.getItem("language");
     return (savedLang as Language) || "en";
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    // Add a very short loading state to ensure the UI updates properly
+    setIsLoading(true);
     localStorage.setItem("language", language);
+    
+    // Small timeout to allow for UI transitions
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 150);
+    
+    // Apply RTL or LTR direction based on language if needed
+    // document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
+    
+    return () => clearTimeout(timer);
   }, [language]);
 
   const setLanguage = (lang: Language) => {
@@ -231,11 +304,13 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const t = (key: string) => {
-    return translations[language][key as keyof typeof translations[typeof language]] || key;
+    // Return the translation or the key itself if not found
+    const translationObj = translations[language];
+    return translationObj[key as keyof typeof translationObj] || key;
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, isLoading }}>
       {children}
     </LanguageContext.Provider>
   );
