@@ -1,9 +1,9 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
 import Container from "@/components/ui/Container";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { 
@@ -101,7 +101,6 @@ const JudgeDashboard = () => {
   const [sortField, setSortField] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   
-  // Demo data
   const hackathons: HackathonToJudge[] = [
     {
       id: "h1",
@@ -291,18 +290,10 @@ const JudgeDashboard = () => {
     return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')}.${date.getFullYear()}`;
   };
   
-  const getStatusColor = (status: SubmissionStatus) => {
-    switch(status) {
-      case "evaluated": return "text-green-500";
-      case "rejected": return "text-red-500";
-      default: return "text-yellow-500";
-    }
-  };
-  
   const getStatusBadge = (status: SubmissionStatus) => {
     switch(status) {
       case "evaluated": 
-        return <Badge variant="success">{t("judge.evaluated") || "Baholangan"}</Badge>;
+        return <Badge variant="default">{t("judge.evaluated") || "Baholangan"}</Badge>;
       case "rejected":
         return <Badge variant="destructive">{t("judge.rejected") || "Rad etilgan"}</Badge>;
       default:
@@ -313,7 +304,7 @@ const JudgeDashboard = () => {
   const getHackathonStatusBadge = (status: "active" | "upcoming" | "completed") => {
     switch(status) {
       case "active":
-        return <Badge variant="success">{t("judge.active") || "Faol"}</Badge>;
+        return <Badge variant="default">{t("judge.active") || "Faol"}</Badge>;
       case "upcoming":
         return <Badge variant="outline">{t("judge.upcoming") || "Kutilmoqda"}</Badge>;
       case "completed":
@@ -434,7 +425,6 @@ const JudgeDashboard = () => {
           </TabsContent>
           
           <TabsContent value="upcoming">
-            {/* Similar layout to active, but filtered for upcoming hackathons */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredHackathons.map((hackathon) => (
                 <Card key={hackathon.id} className="overflow-hidden hover:shadow-md transition-shadow">
@@ -481,7 +471,6 @@ const JudgeDashboard = () => {
           </TabsContent>
           
           <TabsContent value="completed">
-            {/* Similar layout to active, but filtered for completed hackathons */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredHackathons.map((hackathon) => (
                 <Card key={hackathon.id} className="overflow-hidden hover:shadow-md transition-shadow">
@@ -543,7 +532,6 @@ const JudgeDashboard = () => {
           </TabsContent>
           
           <TabsContent value="all">
-            {/* Similar to active, but shows all hackathons regardless of status */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {hackathons.map((hackathon) => (
                 <Card key={hackathon.id} className="overflow-hidden hover:shadow-md transition-shadow">
@@ -606,7 +594,7 @@ const JudgeDashboard = () => {
                       {hackathon.status === "completed" ? 
                         (t("judge.viewResults") || "Natijalarni ko'rish") : 
                         hackathon.status === "upcoming" ?
-                          (t("judge.viewDetails") || "Batafsil ma'lumot") :
+                          (t("judge.viewDetails") || "Batafsil") :
                           (t("judge.reviewSubmissions") || "Loyihalarni baholash")}
                     </Button>
                   </CardFooter>
@@ -747,7 +735,6 @@ const JudgeDashboard = () => {
         </div>
       </div>
       
-      {/* Evaluation Dialog */}
       <Dialog open={evaluationDialogOpen} onOpenChange={setEvaluationDialogOpen}>
         <DialogContent className="sm:max-w-3xl">
           {selectedSubmission && (

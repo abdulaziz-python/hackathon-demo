@@ -39,7 +39,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { UserProfileCard } from "@/components/ui/UserProfileCard";
+import UserProfileCard from "@/components/ui/UserProfileCard";
 import { 
   Users, 
   UserPlus, 
