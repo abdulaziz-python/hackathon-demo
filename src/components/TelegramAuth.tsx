@@ -5,10 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { BrandTelegram, ArrowRight, Send, CheckCircle2 } from "lucide-react";
+import { Send, ArrowRight, CheckCircle2 } from "lucide-react";
 
 interface TelegramAuthProps {
-  onSuccess?: () => void;
+  onSuccess?: (userData?: any) => void;
 }
 
 const TelegramAuth = ({ onSuccess }: TelegramAuthProps) => {
@@ -67,7 +67,12 @@ const TelegramAuth = ({ onSuccess }: TelegramAuthProps) => {
       // Call onSuccess callback if provided
       if (onSuccess) {
         setTimeout(() => {
-          onSuccess();
+          onSuccess({
+            first_name: "Demo",
+            last_name: "User",
+            username: "demouser",
+            id: "12345678"
+          });
         }, 1500);
       }
     }, 1500);
@@ -88,8 +93,8 @@ const TelegramAuth = ({ onSuccess }: TelegramAuthProps) => {
       <Card className="w-full max-w-md mx-auto shadow-sm bg-card">
         <CardHeader className="space-y-1">
           <div className="flex justify-center mb-2">
-            <div className="h-14 w-14 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-              <BrandTelegram size={28} />
+            <div className="h-14 w-14 rounded-full bg-telegram text-white flex items-center justify-center">
+              <Send size={28} />
             </div>
           </div>
           <CardTitle className="text-2xl text-center">Sign in with Telegram</CardTitle>
