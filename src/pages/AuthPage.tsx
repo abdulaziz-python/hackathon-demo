@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,11 +6,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, Mail, Lock, BrandTelegram, User, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Mail, Lock, User, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import TelegramAuth from "@/components/TelegramAuth";
 import Container from "@/components/ui/Container";
+import { TelegramIcon } from "@/components/ui/Icons";
 
 interface AuthPageProps {
   defaultTab?: "login" | "signup";
@@ -28,17 +28,14 @@ const AuthPage = ({ defaultTab = "login" }: AuthPageProps) => {
   const [isTelegramDialogOpen, setIsTelegramDialogOpen] = useState(false);
   const [success, setSuccess] = useState(false);
   
-  // Use the defaultTab prop or determine based on URL path
   const [activeTab, setActiveTab] = useState<"login" | "signup">(defaultTab);
 
-  // Update the URL when tab changes without full page reload
   const handleTabChange = (value: string) => {
     setActiveTab(value as "login" | "signup");
     navigate(value === "signup" ? "/signup" : "/login", { replace: true });
   };
 
   useEffect(() => {
-    // Reset form when active tab changes
     setEmail("");
     setPassword("");
     setName("");
@@ -59,7 +56,6 @@ const AuthPage = ({ defaultTab = "login" }: AuthPageProps) => {
     
     setIsLoading(true);
     
-    // Simulate API call
     setTimeout(() => {
       setIsLoading(false);
       setSuccess(true);
@@ -69,7 +65,6 @@ const AuthPage = ({ defaultTab = "login" }: AuthPageProps) => {
         description: "Welcome back to Hackathon.uz!",
       });
       
-      // Redirect to dashboard after a short delay
       setTimeout(() => {
         navigate("/dashboard");
       }, 1500);
@@ -90,7 +85,6 @@ const AuthPage = ({ defaultTab = "login" }: AuthPageProps) => {
     
     setIsLoading(true);
     
-    // Simulate API call
     setTimeout(() => {
       setIsLoading(false);
       setSuccess(true);
@@ -100,7 +94,6 @@ const AuthPage = ({ defaultTab = "login" }: AuthPageProps) => {
         description: "Your account has been created",
       });
       
-      // Redirect to dashboard after a short delay
       setTimeout(() => {
         navigate("/dashboard");
       }, 1500);
@@ -119,13 +112,11 @@ const AuthPage = ({ defaultTab = "login" }: AuthPageProps) => {
       description: `Welcome, ${userData.first_name || "User"}!`,
     });
     
-    // Redirect to dashboard after a short delay
     setTimeout(() => {
       navigate("/dashboard");
     }, 1000);
   };
 
-  // Animation for success state
   const successAnimation = {
     hidden: { opacity: 0, scale: 0.8 },
     show: { 
@@ -337,7 +328,7 @@ const AuthPage = ({ defaultTab = "login" }: AuthPageProps) => {
                   className="w-full mt-6 h-11 rounded-lg btn-hover-effect"
                   onClick={handleTelegramAuth}
                 >
-                  <BrandTelegram className="mr-2 h-4 w-4 text-[#0088cc]" />
+                  <TelegramIcon className="mr-2 h-4 w-4" />
                   {activeTab === "login" ? "Sign in with Telegram" : "Sign up with Telegram"}
                 </Button>
               </CardContent>
@@ -351,7 +342,6 @@ const AuthPage = ({ defaultTab = "login" }: AuthPageProps) => {
         </motion.div>
       </div>
       
-      {/* Telegram Auth Dialog */}
       <Dialog open={isTelegramDialogOpen} onOpenChange={setIsTelegramDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
