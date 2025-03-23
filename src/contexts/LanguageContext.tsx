@@ -268,7 +268,7 @@ const translations = {
 };
 
 const LanguageContext = createContext<LanguageContextType>({
-  language: "en",
+  language: "uz",
   setLanguage: () => {},
   t: () => "",
   isLoading: false
@@ -279,7 +279,7 @@ export const useLanguage = () => useContext(LanguageContext);
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
     const savedLang = localStorage.getItem("language");
-    return (savedLang as Language) || "en";
+    return (savedLang as Language) || "uz";
   });
   const [isLoading, setIsLoading] = useState(false);
 

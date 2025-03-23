@@ -139,11 +139,11 @@ const Navbar = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="rounded-lg">
-              <DropdownMenuItem onClick={() => setLanguage("en")}>
-                <span className={language === "en" ? "font-medium" : ""}>English</span>
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setLanguage("uz")}>
                 <span className={language === "uz" ? "font-medium" : ""}>O'zbek</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLanguage("en")}>
+                <span className={language === "en" ? "font-medium" : ""}>English</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -223,20 +223,20 @@ const Navbar = () => {
             
             <div className="flex items-center px-3 py-2">
               <Button 
-                variant={language === "en" ? "default" : "outline"} 
-                size="sm" 
-                onClick={() => setLanguage("en")}
-                className="flex-1 mr-2 text-xs rounded-lg"
-              >
-                English
-              </Button>
-              <Button 
                 variant={language === "uz" ? "default" : "outline"} 
                 size="sm" 
                 onClick={() => setLanguage("uz")}
-                className="flex-1 text-xs rounded-lg"
+                className="flex-1 mr-2 text-xs rounded-lg"
               >
                 O'zbek
+              </Button>
+              <Button 
+                variant={language === "en" ? "default" : "outline"} 
+                size="sm" 
+                onClick={() => setLanguage("en")}
+                className="flex-1 text-xs rounded-lg"
+              >
+                English
               </Button>
             </div>
             
