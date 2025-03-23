@@ -72,6 +72,21 @@
   }
 }
 
+/* Additional utility classes for badge backgrounds with opacity */
+@layer utilities {
+  .bg-success\/10 {
+    background-color: hsl(var(--success) / 0.1);
+  }
+  
+  .bg-primary\/10 {
+    background-color: hsl(var(--primary) / 0.1);
+  }
+  
+  .bg-warning\/10 {
+    background-color: hsl(var(--warning) / 0.1);
+  }
+}
+
 /* MacOS Card Styling */
 .macos-card {
   @apply bg-white dark:bg-card border border-border/30 backdrop-blur-sm dark:backdrop-blur-sm dark:border-white/5 rounded-xl;
