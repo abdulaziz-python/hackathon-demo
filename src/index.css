@@ -72,25 +72,20 @@
 }
 
 @layer utilities {
-  /* Custom utility classes for success color with opacity */
   .bg-success\/10 {
     background-color: hsl(var(--success) / 0.1);
-  }
-  
-  .bg-success\/20 {
-    background-color: hsl(var(--success) / 0.2);
-  }
-  
-  .bg-success\/30 {
-    background-color: hsl(var(--success) / 0.3);
   }
   
   .bg-warning\/10 {
     background-color: hsl(var(--warning) / 0.1);
   }
   
-  .bg-warning\/20 {
-    background-color: hsl(var(--warning) / 0.2);
+  .bg-primary\/10 {
+    background-color: hsl(var(--primary) / 0.1);
+  }
+  
+  .bg-primary\/20 {
+    background-color: hsl(var(--primary) / 0.2);
   }
 }
 
