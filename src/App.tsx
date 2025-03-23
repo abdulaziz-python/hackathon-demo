@@ -54,7 +54,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<AuthPage />} />
-              <Route path="/signup" element={<AuthPage mode="signup" />} />
+              <Route path="/signup" element={<AuthPage key="signup" defaultTab="signup" />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/hackathons/:id" element={<HackathonDetail />} />
               <Route path="/team" element={<TeamManagement />} />

@@ -48,11 +48,11 @@ const Navbar = () => {
     navigate("/login");
   };
   
-  // Add the missing handleAuthSuccess function
+  // Add the handleAuthSuccess function
   const handleAuthSuccess = (userData: any) => {
     toast({
       title: "Login Successful",
-      description: `Welcome, ${userData.first_name}!`,
+      description: `Welcome, ${userData.first_name || "User"}!`,
       variant: "default",
     });
     setIsAuthDialogOpen(false);

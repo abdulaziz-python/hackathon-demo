@@ -29,6 +29,8 @@
     --success-foreground: 0 0% 98%;
     --warning: 38 92% 50%;
     --warning-foreground: 240 10% 3.9%;
+    --telegram: 203 89% 43%;
+    --telegram-dark: 203 89% 35%;
   }
 
   .dark {
@@ -55,6 +57,8 @@
     --success-foreground: 0 0% 98%;
     --warning: 38 92% 50%;
     --warning-foreground: 240 10% 3.9%;
+    --telegram: 203 89% 53%;
+    --telegram-dark: 203 89% 45%;
   }
 }
 
@@ -236,4 +240,98 @@
 .page-transition-exit-active {
   opacity: 0;
   transition: opacity 300ms;
+}
+
+/* Enhanced form styles */
+.enhanced-form .form-group {
+  @apply mb-6 transition-all duration-200;
+}
+
+.enhanced-form .form-group:focus-within label {
+  @apply text-primary;
+}
+
+.enhanced-form input[type="text"],
+.enhanced-form input[type="email"],
+.enhanced-form input[type="password"],
+.enhanced-form input[type="date"],
+.enhanced-form input[type="number"],
+.enhanced-form textarea,
+.enhanced-form select {
+  @apply transition-all duration-200 w-full rounded-lg border border-input bg-transparent px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+}
+
+.enhanced-form .form-label {
+  @apply text-sm font-medium transition-colors duration-200;
+}
+
+/* Card hover effects */
+.interactive-card {
+  @apply transition-all duration-300;
+  transform: perspective(1000px) rotateX(0) rotateY(0);
+  transform-style: preserve-3d;
+}
+
+.interactive-card:hover {
+  transform: perspective(1000px) rotateX(2deg) rotateY(2deg);
+  @apply shadow-lg;
+}
+
+/* Pill badges */
+.pill-badge {
+  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors;
+}
+
+.pill-badge-primary {
+  @apply bg-primary/10 text-primary;
+}
+
+.pill-badge-secondary {
+  @apply bg-secondary text-secondary-foreground;
+}
+
+.pill-badge-success {
+  @apply bg-success/10 text-success;
+}
+
+.pill-badge-warning {
+  @apply bg-warning/10 text-warning;
+}
+
+/* Timeline styles */
+.timeline-container {
+  @apply relative pl-6 border-l-2 border-muted-foreground/20;
+}
+
+.timeline-dot {
+  @apply absolute -left-1.5 mt-1.5 h-3 w-3 rounded-full bg-primary;
+}
+
+/* Realistic shadows */
+.shadow-realistic {
+  box-shadow: 
+    0 1px 1px rgba(0,0,0,0.02),
+    0 2px 2px rgba(0,0,0,0.02),
+    0 4px 4px rgba(0,0,0,0.02),
+    0 8px 8px rgba(0,0,0,0.02),
+    0 16px 16px rgba(0,0,0,0.02);
+}
+
+.shadow-realistic-dark {
+  box-shadow: 
+    0 1px 1px rgba(0,0,0,0.1),
+    0 2px 2px rgba(0,0,0,0.1),
+    0 4px 4px rgba(0,0,0,0.1),
+    0 8px 8px rgba(0,0,0,0.1),
+    0 16px 16px rgba(0,0,0,0.1);
+}
+
+/* Glass morphism effect */
+.glass-morphism {
+  @apply bg-white/10 dark:bg-white/5 backdrop-blur-md border border-white/20 dark:border-white/10;
+}
+
+/* Better transitions */
+.transition-all-bezier {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
