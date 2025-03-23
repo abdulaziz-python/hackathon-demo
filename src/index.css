@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -30,6 +31,8 @@
     --warning-foreground: 240 10% 3.9%;
     --telegram: 203 89% 43%;
     --telegram-dark: 203 89% 35%;
+    --info: 210 100% 52%;
+    --info-foreground: 0 0% 98%;
   }
 
   .dark {
@@ -58,6 +61,8 @@
     --warning-foreground: 240 10% 3.9%;
     --telegram: 203 89% 53%;
     --telegram-dark: 203 89% 45%;
+    --info: 210 100% 52%;
+    --info-foreground: 0 0% 98%;
   }
 }
 
@@ -86,6 +91,46 @@
   
   .bg-primary\/20 {
     background-color: hsl(var(--primary) / 0.2);
+  }
+  
+  .bg-destructive\/10 {
+    background-color: hsl(var(--destructive) / 0.1);
+  }
+  
+  .bg-info\/10 {
+    background-color: hsl(var(--info) / 0.1);
+  }
+  
+  .text-success {
+    color: hsl(var(--success));
+  }
+  
+  .text-warning {
+    color: hsl(var(--warning));
+  }
+  
+  .text-info {
+    color: hsl(var(--info));
+  }
+  
+  .border-success\/20 {
+    border-color: hsl(var(--success) / 0.2);
+  }
+  
+  .border-warning\/20 {
+    border-color: hsl(var(--warning) / 0.2);
+  }
+  
+  .border-primary\/20 {
+    border-color: hsl(var(--primary) / 0.2);
+  }
+  
+  .border-destructive\/20 {
+    border-color: hsl(var(--destructive) / 0.2);
+  }
+  
+  .border-info\/20 {
+    border-color: hsl(var(--info) / 0.2);
   }
 }
 
@@ -123,4 +168,147 @@
   to {
     opacity: 1;
   }
+}
+
+/* Glass Card Effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.dark .glass-card {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Profile Card Styles */
+.profile-card {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 
+              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.profile-card-banner {
+  height: 80px;
+  background: linear-gradient(
+    45deg, 
+    hsl(var(--primary) / 0.8), 
+    hsl(var(--primary) / 0.4)
+  );
+  border-top-left-radius: calc(var(--radius) - 1px);
+  border-top-right-radius: calc(var(--radius) - 1px);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-card-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.profile-card-avatar-wrapper {
+  position: relative;
+  margin-top: -40px;
+  padding: 0 24px;
+  z-index: 10;
+}
+
+.profile-card-content {
+  padding: 0 24px 24px;
+}
+
+.profile-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  font-size: 12px;
+  font-weight: 600;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(25%, 25%);
+  border: 2px solid hsl(var(--background));
+}
+
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.profile-stat-item {
+  padding: 8px;
+  border-radius: var(--radius);
+  background-color: hsl(var(--muted));
+  transition: background-color 0.2s;
+}
+
+.profile-stat-item:hover {
+  background-color: hsl(var(--muted) / 0.8);
+}
+
+.profile-stat-value {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: hsl(var(--foreground));
+}
+
+.profile-stat-label {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+}
+
+/* Animation for skill progress */
+@keyframes fill-progress {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: var(--progress);
+  }
+}
+
+.skill-progress {
+  position: relative;
+  height: 6px;
+  background-color: hsl(var(--muted));
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.skill-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(
+    90deg, 
+    hsl(var(--primary)), 
+    hsl(var(--primary) / 0.8)
+  );
+  width: var(--progress);
+  animation: fill-progress 1s ease-out;
 }

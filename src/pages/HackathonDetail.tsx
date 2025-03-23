@@ -1,6 +1,5 @@
-
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Calendar, MapPin, Users, Trophy, Clock, ExternalLink, Share2, BrandTelegram } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, Users, Trophy, Clock, ExternalLink, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Container from "@/components/ui/Container";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -10,13 +9,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
 import TelegramAuth from "@/components/TelegramAuth";
+import { TelegramIcon } from "@/components/ui/Icons";
 
 const HackathonDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useLanguage();
   const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false);
 
-  // Mock data for the hackathon
   const hackathon = {
     id,
     title: "Web3 Innovation Challenge",
@@ -60,7 +59,6 @@ const HackathonDetail = () => {
     maxTeams: 30,
   };
 
-  // Animation variants
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -93,7 +91,6 @@ const HackathonDetail = () => {
           </Link>
         </motion.div>
 
-        {/* Hero Banner */}
         <motion.div variants={item} className="relative rounded-xl overflow-hidden h-64 md:h-72">
           <img 
             src={hackathon.bannerImage} 
@@ -108,7 +105,6 @@ const HackathonDetail = () => {
           </div>
         </motion.div>
 
-        {/* Quick Info & Register Button */}
         <motion.div variants={item} className="flex flex-col md:flex-row justify-between gap-4 items-start md:items-center p-5 rounded-xl bg-card shadow-sm border border-border/50">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 text-sm">
             <div className="flex items-center gap-2">
@@ -142,11 +138,10 @@ const HackathonDetail = () => {
           </div>
           <Button className="w-full md:w-auto rounded-lg" onClick={() => setIsRegisterDialogOpen(true)}>
             Register with Telegram
-            <BrandTelegram className="ml-2 h-4 w-4" />
+            <TelegramIcon className="ml-2 h-4 w-4" />
           </Button>
         </motion.div>
 
-        {/* Tabs for Details */}
         <motion.div variants={item}>
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full grid-cols-4 mb-6 bg-muted/50 p-1 rounded-lg">
@@ -273,7 +268,6 @@ const HackathonDetail = () => {
           </Tabs>
         </motion.div>
 
-        {/* Registration Progress */}
         <motion.div variants={item} className="rounded-xl border bg-card/50 p-5 shadow-sm">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
             <div>
@@ -301,7 +295,6 @@ const HackathonDetail = () => {
         </motion.div>
       </motion.div>
 
-      {/* Registration Dialog */}
       <Dialog open={isRegisterDialogOpen} onOpenChange={setIsRegisterDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>

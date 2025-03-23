@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { format } from "date-fns";
 import { CalendarIcon, Upload, Link2, MapPin, Tag, Info, Award } from "lucide-react";
+import { Calendar, Clock, MapPin, Trophy, Upload, ChevronLeft, ChevronRight, PlusCircle, ArrowRight, Trash, TextSelect, LayoutGrid, Layers, MessageSquare, CalendarDays, UserPlus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -133,7 +133,6 @@ const CreateHackathonForm: React.FC<CreateHackathonFormProps> = ({ onUpdatePrevi
     form.setValue("categories", categoriesString);
   }, [selectedCategories, form]);
 
-  // Update preview when form values change
   useEffect(() => {
     if (onUpdatePreview) {
       const currentValues = form.getValues();
@@ -145,7 +144,6 @@ const CreateHackathonForm: React.FC<CreateHackathonFormProps> = ({ onUpdatePrevi
   }, [form, coverPreview, onUpdatePreview]);
 
   const onSubmit = (data: HackathonFormValues) => {
-    // Validate date sequence
     if (data.endDate < data.startDate) {
       form.setError("endDate", {
         message: "End date cannot be before start date",
@@ -160,7 +158,6 @@ const CreateHackathonForm: React.FC<CreateHackathonFormProps> = ({ onUpdatePrevi
       return;
     }
 
-    // Here you would normally submit to an API
     console.log({
       ...data,
       coverImage: coverImage,
@@ -172,7 +169,6 @@ const CreateHackathonForm: React.FC<CreateHackathonFormProps> = ({ onUpdatePrevi
       variant: "default",
     });
 
-    // Redirect to hackathon management
     navigate("/admin?tab=hackathons");
   };
 
@@ -672,7 +668,7 @@ const CreateHackathonForm: React.FC<CreateHackathonFormProps> = ({ onUpdatePrevi
               <div className="space-y-6">
                 <div>
                   <h3 className="text-base font-semibold mb-4 flex items-center">
-                    <Users className="mr-2 h-4 w-4" /> Participant Settings
+                    <UserPlus className="mr-2 h-4 w-4" /> Participant Settings
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField

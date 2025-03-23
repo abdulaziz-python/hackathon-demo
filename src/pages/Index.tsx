@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Search, CalendarDays, MapPin, Trophy, ChevronRight, Users, Clock, MousePointer, BrandTelegram } from "lucide-react";
+import { ArrowRight, Search, CalendarDays, MapPin, Trophy, ChevronRight, Users, Clock, MousePointer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Container from "@/components/ui/Container";
@@ -8,8 +8,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import TelegramAuth from "@/components/TelegramAuth";
+import { TelegramIcon } from "@/components/ui/Icons";
 
-// Mock data - keep the same structure but simplified
 const upcomingHackathons = [
   {
     id: "1",
@@ -40,7 +40,6 @@ const upcomingHackathons = [
   },
 ];
 
-// Simplified featured hackathon
 const featuredHackathon = {
   id: "featured",
   title: "National Innovation Challenge",
@@ -53,7 +52,6 @@ const featuredHackathon = {
   registrationEndDate: "May 10, 2024",
 };
 
-// Top teams for leaderboard
 const topTeams = [
   { id: "1", name: "CodeCrafters", score: 92.5, rank: 1 },
   { id: "2", name: "Innovators Inc.", score: 88.0, rank: 2 },
@@ -66,7 +64,6 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
   
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -89,13 +86,11 @@ const Index = () => {
 
   const handleAuthSuccess = () => {
     setIsAuthDialogOpen(false);
-    // Redirect to dashboard
     navigate("/dashboard");
   };
 
   return (
     <Container withoutPadding>
-      {/* Hero Section - Minimalist with no image, using typography and space */}
       <section className="min-h-[80vh] flex items-center py-16">
         <div className="container mx-auto px-4">
           <motion.div 
@@ -144,7 +139,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Upcoming Events Section - Clean and minimal */}
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
@@ -219,7 +213,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Features Section - New addition */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <motion.div 
@@ -287,7 +280,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Featured Event - Minimal design */}
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -356,7 +348,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Leaderboard Section - Minimal */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -411,7 +402,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* CTA Section - Clean and minimal */}
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <motion.div 
@@ -443,14 +433,13 @@ const Index = () => {
                 onClick={() => setIsAuthDialogOpen(true)}
               >
                 Sign up with Telegram
-                <BrandTelegram className="ml-2 h-5 w-5" />
+                <TelegramIcon className="ml-2 h-5 w-5" />
               </Button>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Auth Dialog */}
       <Dialog open={isAuthDialogOpen} onOpenChange={setIsAuthDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
